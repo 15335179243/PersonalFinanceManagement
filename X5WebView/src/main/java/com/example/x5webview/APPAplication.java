@@ -4,10 +4,16 @@ import android.app.Application;
 import android.util.Log;
 import android.widget.Toast;
 
+
 import com.tencent.smtt.sdk.QbSdk;
+
+import java.util.UUID;
 
 public class APPAplication extends Application {
     public static String token = null;
+    public static UUID mUuid;
+    public static String mIMEI;
+    public static String mDID;
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
@@ -31,6 +37,8 @@ public class APPAplication extends Application {
         };
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), cb);
+
+        QbSdk.setDownloadWithoutWifi(true);
     }
 
 }

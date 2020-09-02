@@ -15,6 +15,7 @@ import com.example.common_base.base.BaseActivity;
 
 
 import butterknife.BindView;
+import cn.jiguang.verify.JMainActivity;
 
 /**
  * Create by SunnyDay on 2019/03/15
@@ -66,7 +67,7 @@ public class SplashActivity extends BaseActivity {
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             mChuMuSharedPreferences.putValue(SPConstant.FIRST_IN, false);
         } else {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, JMainActivity.class));
         }
         finish();
     }

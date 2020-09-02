@@ -6,13 +6,16 @@ import android.util.Log;
 import androidx.multidex.MultiDex;
 
 import com.chumu.dt.v24.magicbox.appbox.ChuMuAppUtils;
+
 import com.example.x5webview.APPAplication;
 import com.example.common_base.BuildConfig;
 import com.example.common_base.local_utils.DeviceUuidFactory;
 
 import java.util.UUID;
 
-public class BaseApplication extends APPAplication {
+import cn.jiguang.verify.MyApp;
+
+public class BaseApplication extends MyApp {
     public static BaseApplication sApplication;
     public static UUID mUuid;
     private static String tAppCacheDir;

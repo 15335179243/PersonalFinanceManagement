@@ -1,13 +1,17 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+
+    compileSdkVersion compileSdk
+
+
+    buildToolsVersion buildTools
+
     defaultConfig {
-//        applicationId "com.tanrice.changwan_box"
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+
+
 
         // Specifies the ABI configurations of your native
         // libraries Gradle should build and package with your APK.
@@ -24,14 +28,13 @@ android {
 
     //android studio默认so文件加载目录为:src/main/jniLibs
     //如在module的build.gradle按照如下方式,自定义了so文件加载目录请确保对应目录下只有armeabi目录
-    //    sourceSets {
-    //        main{
-    //            jniLibs.srcDirs = ['libs']
-    //        }
-    //    }
+//        sourceSets {
+//            main{
+//                jniLibs.srcDirs = ['libs']
+//            }
+//        }
 }
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api files('libs/tbs_sdk_thirdapp_v4.3.0.39_43939_sharewithdownloadwithfile_withoutGame_obfs_20200713_223411.jar')
 }
