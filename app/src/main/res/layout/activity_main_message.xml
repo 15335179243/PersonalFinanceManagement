@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.MainMessageActivity">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_128"
+        android:layout_marginTop="@dimen/dp_75"
+        android:layout_marginEnd="@dimen/dp_128"
+        android:text="完善我的信息"
+        android:textColor="@color/black_message"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_75"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_75"
+        android:textColor="@color/black_message"
+        android:textSize="@dimen/sp_14"
+        android:text="将根据身份给您推荐更加适合的职位"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+    <TextView
+        android:id="@+id/tv_mysex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_75"
+        android:layout_marginTop="@dimen/dp_51"
+        android:layout_marginEnd="@dimen/dp_75"
+        android:text="我的性别"
+        android:textColor="@color/black_message"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv2"/>
+
+    <Button
+        android:id="@+id/bt_nan"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_93"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:background="@color/white"
+        android:text="男"
+        app:layout_constraintEnd_toStartOf="@id/bt_nv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mysex" />
+
+    <Button
+        android:id="@+id/bt_nv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_93"
+        android:background="@color/white"
+        android:text="女"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bt_nan"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mysex" />
+
+    <TextView
+        android:id="@+id/tv_myshenfen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_75"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_75"
+        android:text="我的身份"
+        android:textColor="@color/black_message"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_nv"/>
+
+    <Button
+        android:id="@+id/bt_student"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_51"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_5"
+        android:background="@color/white"
+        android:text="学生"
+        app:layout_constraintEnd_toStartOf="@+id/bt_shangban"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_myshenfen" />
+
+    <Button
+        android:id="@+id/bt_shangban"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_5"
+        android:background="@color/white"
+        android:text="上班族"
+        app:layout_constraintEnd_toStartOf="@id/bt_baoma"
+        app:layout_constraintStart_toEndOf="@+id/bt_student"
+        app:layout_constraintTop_toBottomOf="@+id/tv_myshenfen" />
+
+    <Button
+        android:id="@+id/bt_baoma"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_5"
+        android:background="@color/white"
+        android:text="宝妈"
+        app:layout_constraintEnd_toStartOf="@id/bt_ziyouwork"
+        app:layout_constraintStart_toEndOf="@+id/bt_shangban"
+        app:layout_constraintTop_toBottomOf="@+id/tv_myshenfen" />
+
+    <Button
+        android:id="@+id/bt_ziyouwork"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_51"
+        android:background="@color/white"
+        android:text="自由职业"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bt_baoma"
+        app:layout_constraintTop_toBottomOf="@+id/tv_myshenfen" />
+
+    <TextView
+        android:id="@+id/tv_mynianling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_75"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_75"
+        android:text="我的年龄"
+        android:textColor="@color/black_message"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_shangban"/>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="@dimen/dp_238"
+        android:layout_height="@dimen/dp_30"
+        android:entries="@array/Data"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginStart="@dimen/dp_72"
+        android:layout_marginTop="@dimen/dp_27"
+        android:layout_marginEnd="@dimen/dp_72"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mynianling"/>
+
+    <Button
+        android:id="@+id/bt_star"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginStart="@dimen/dp_35"
+        android:layout_marginTop="138dp"
+        android:layout_marginEnd="@dimen/dp_35"
+        android:layout_marginBottom="80dp"
+        android:background="@color/white"
+        android:text="开始兼职"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
