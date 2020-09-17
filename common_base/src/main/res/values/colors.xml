@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#d53d3c</color>
-    <color name="colorAccent">#FF4081</color>
 
     <color name="default_color">#EEEEEE</color>
     <color name="white">#FFFFFF</color>
@@ -17,5 +14,14 @@
     <color name="alpha_pink">#FDE6E3</color>
     <color name="back_grey">#F9F9F9</color>
     <color name="grey_loading">#FF999999</color>
-    <color name="app_theme_color">#FFFFFF</color>
+    <color name="app_theme_color">#F30091CA</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="divider">#e2e2e2</color>
+    <color name="blue">#0366c1</color>
+    <color name="black_title">#000000</color>
+    <color name="hint_gray">#999999</color>
+    <color name="red">#ff0000</color>
 </resources>

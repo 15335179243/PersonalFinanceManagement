@@ -15,7 +15,7 @@ public class BasePresenter<V extends ICommonView, M extends ICommonModel>{
 
     public void attach(V view, M model) {
 
-        this.view =  new WeakReference<>((V) new ProxyICommonViewInvocationHandler(view).getProxy());
+        this.view =  new WeakReference<>(view);
         this.model = new WeakReference<>(model);
     }
 

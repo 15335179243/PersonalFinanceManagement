@@ -4,9 +4,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chumu.jianzhimao.R;
-import com.chumu.jianzhimao.mvp.LetterComparator;
-import com.chumu.jianzhimao.mvp.adapter.CityAdapter;
-import com.chumu.jianzhimao.mvp.bean.City;
+import com.chumu.jianzhimao.ui.mvp.LetterComparator;
+import com.chumu.jianzhimao.ui.adapter.CityAdapter;
+import com.chumu.jianzhimao.ui.mvp.bean.City;
 import com.example.common_base.base.BaseActivity;
 import com.example.common_base.design.PinnedHeaderDecoration;
 import com.example.common_base.design.WaveSideBarView;

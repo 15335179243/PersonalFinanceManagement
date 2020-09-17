@@ -1,14 +1,17 @@
-package com.chumu.jianzhimao.ui.activity;
+package com.chumu.jianzhimao.ui.activity.login;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 
 import com.chumu.jianzhimao.R;
 import com.example.common_base.base.BaseActivity;
 
-public class LoginActivity extends BaseActivity {
-
+public class ForgetPasswordActivity extends BaseActivity {
 
     @Override
     protected int onCreateContentView() {
-        return R.layout.activity_login;
+        return R.layout.activity_forget_password;
     }
 
     @Override

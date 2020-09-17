@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion compileSdk
@@ -10,16 +11,16 @@ android {
         targetSdkVersion targetSdk
         versionCode appVersionCode
         versionName appVersionName
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi"
         }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "7aa4442319c651ce43e81b8f", //Portal上注册的包名对应的 appKey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }
 
@@ -33,6 +34,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
@@ -40,8 +42,38 @@ android {
         abortOnError false
     }
 
-}
 
+    MobSDK {
+        appKey "30d635f948ed5"
+        appSecret "28bb63d5b895bef56283defe174340b8"
+        SMSSDK {}
+        gui false
+        autoSMS true
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'ChuMuYa'
+            keyPassword '123456'
+            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+            storePassword '123456'
+            v2SigningEnabled true
+        }
+        debug {
+            keyAlias 'ChuMuYa'
+            keyPassword '123456'
+            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+            storePassword '123456'
+            v2SigningEnabled true
+        }
+    }
+}
+allprojects {
+    repositories {
+
+        maven { url 'https://jitpack.io' }
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -52,7 +84,137 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
+
+    implementation 'com.jzp:rotate3D:1.0.0'
     implementation project(path: ':common_base')
-    annotationProcessor "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

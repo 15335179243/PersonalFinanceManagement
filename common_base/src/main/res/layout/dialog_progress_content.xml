@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
-        <com.example.basketballgame.design.ProgressImageView
+        <com.example.common_base.design.ProgressImageView
             android:id="@+id/view_list_empty_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -38,6 +38,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        getTitleView().mBackBtn.setVisibility(View.GONE);
         mNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

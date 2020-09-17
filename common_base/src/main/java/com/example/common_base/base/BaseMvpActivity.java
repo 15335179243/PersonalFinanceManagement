@@ -17,11 +17,8 @@ public abstract class BaseMvpActivity <M> extends BaseActivity implements ICommo
         if (mPresenter != null) mPresenter.attach(this, (ICommonModel) mModel);
     }
 
-    public abstract int getLayoutId();
-
-
     public CommonPresenter getPresenter(){
-        return PresenterFactoryProxy.createProxy(CommonPresenter.class,new CommonPresenter());
+        return new CommonPresenter();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.chumu.jianzhimao.mvp.bean;
+package com.chumu.jianzhimao.ui.mvp.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 

@@ -10,4 +10,5 @@ package com.example.common_base;
  */
 
 public class UrlPath {
+    public static  String BaseUrl="http://192.168.40.21:9091/";
 }

@@ -67,7 +67,7 @@ public class SplashActivity extends BaseActivity {
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             mChuMuSharedPreferences.putValue(SPConstant.FIRST_IN, false);
         } else {
-            startActivity(new Intent(SplashActivity.this, JMainActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
         }
         finish();
     }

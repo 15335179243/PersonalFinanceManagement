@@ -1,15 +1,9 @@
-package com.chumu.jianzhimao.mvp;
+package com.chumu.jianzhimao.ui.mvp;
 
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.chumu.jianzhimao.R;
-import com.chumu.jianzhimao.mvp.bean.City;
-
-import org.jetbrains.annotations.NotNull;
+import com.chumu.jianzhimao.ui.mvp.bean.City;
 
 import java.util.Comparator;
-import java.util.List;
 
 public class LetterComparator implements Comparator<City> {
 

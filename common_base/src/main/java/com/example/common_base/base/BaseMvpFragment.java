@@ -19,7 +19,7 @@ public abstract class BaseMvpFragment<M> extends BaseFramgent implements ICommon
     public abstract int getLayoutId();
 
     public CommonPresenter getPresenter(){
-        return PresenterFactoryProxy.createProxy(CommonPresenter.class,new CommonPresenter());
+        return new CommonPresenter();
     }
 
 

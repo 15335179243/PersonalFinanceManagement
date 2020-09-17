@@ -81,7 +81,7 @@ dependencies {
     api "androidx.cardview:cardview:$cardViewVersion"
     api "me.drakeet.multitype:multitype:$multitypeVersion"
     //noinspection GradleDependency
-    api"com.google.android.material:material:$materialDesignVersion"
+    api "com.google.android.material:material:$materialDesignVersion"
 
     //butterknife
     api "com.jakewharton:butterknife:$butterknifeVersion"
@@ -124,8 +124,8 @@ dependencies {
 //    用来解析爬取html
     api 'org.jsoup:jsoup:1.13.1'
     //自己家的依赖
-//    api 'com.github.15335179243:ChuMuYa:v11-2.0.2-beta'
-    api 'com.chumu.magic-box:ChuMuMagicBox:v11-2.0.0'
+    api 'com.github.15335179243:ChuMuYa:v11-2.0.5-beta'
+//    api 'com.chumu.magic-box:ChuMuMagicBox:v11-2.0.0'
 
     api "com.elvishew:xlog:$xlogVersion"
     api 'com.alibaba:fastjson:1.1.71.android'
@@ -134,4 +134,7 @@ dependencies {
     api 'com.github.xiangtailiang:tablayout:1.0.0'
     api project(path: ':X5WebView')
     api project(path: ':example')
+    api "com.youth.banner:banner:$banner"
+
+//    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9'
 }
