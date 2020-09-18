@@ -13,9 +13,9 @@ import com.example.common_base.local_utils.DeviceUuidFactory;
 
 import java.util.UUID;
 
-import cn.jiguang.verify.MyApp;
 
-public class BaseApplication extends MyApp {
+
+public class BaseApplication extends APPAplication {
     public static BaseApplication sApplication;
     public static UUID mUuid;
     private static String tAppCacheDir;

@@ -3,10 +3,7 @@ package com.chumu.jianzhimao;
 import android.util.Log;
 
 import com.example.common_base.base.BaseApplication;
-
-import cn.jiguang.verify.MyApp;
-import cn.jiguang.verifysdk.api.JVerificationInterface;
-import cn.jiguang.verifysdk.api.RequestCallback;
+;
 
 /**
  * JianZhiMao

@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <com.example.common_base.design.RoundImage
         android:id="@+id/head_portrait_iv"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_70"
         android:layout_marginTop="80dp"
-        android:background="@drawable/weixin"
+        android:background="@drawable/ic_remen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-       />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/nickname_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
-        tools:text="龙哥哥爱你摸摸大"
-        android:maxLength="12"
         android:ellipsize="end"
+        android:maxLength="12"
         android:textSize="@dimen/sp_18"
         app:layout_constraintEnd_toEndOf="@+id/head_portrait_iv"
         app:layout_constraintStart_toStartOf="@+id/head_portrait_iv"
-        app:layout_constraintTop_toBottomOf="@+id/head_portrait_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/head_portrait_iv"
+        tools:text="龙哥哥爱你摸摸大" />
 
     <ImageView
         android:id="@+id/compile_iv"
@@ -44,19 +42,35 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="@dimen/dp_25"
-        android:layout_height="@dimen/dp_25"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:src="@drawable/avatar_camera"
         app:layout_constraintBottom_toBottomOf="@+id/head_portrait_iv"
-        app:layout_constraintEnd_toEndOf="@+id/head_portrait_iv"
-        android:src="@drawable/camera" />
+        app:layout_constraintEnd_toEndOf="@+id/head_portrait_iv" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_rlv"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_15"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/dp_15"
+
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:contentPadding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/compile_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/compile_iv">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_rlv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            />
+
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

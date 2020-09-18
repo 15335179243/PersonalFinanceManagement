@@ -1,25 +1,14 @@
 package com.chumu.jianzhimao.ui.activity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.CountDownTimer;
-
 import android.view.View;
 import android.widget.TextView;
-
-
-
 import com.chumu.jianzhimao.R;
 import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseActivity;
-
-
 import butterknife.BindView;
-import cn.jiguang.verify.JMainActivity;
 
-/**
- * Create by SunnyDay on 2019/03/15
- */
 public class SplashActivity extends BaseActivity {
     @BindView(R.id.tv_count_down)
     TextView countDownText;

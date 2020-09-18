@@ -133,8 +133,8 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     api 'com.github.xiangtailiang:tablayout:1.0.0'
     api project(path: ':X5WebView')
-    api project(path: ':example')
+
     api "com.youth.banner:banner:$banner"
 
-//    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9'
+    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9'
 }

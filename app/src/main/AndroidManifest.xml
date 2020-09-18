@@ -13,11 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="ExtraText">
-        <activity android:name=".ui.activity.login.Main2Activity">
-
-
-
-        </activity>
+        <activity android:name=".ui.activity.EditNicknameActivity"></activity>
+        <activity android:name=".ui.activity.login.Main2Activity"></activity>
         <activity android:name=".ui.activity.login.ForgetPasswordActivity" />
         <activity android:name=".ui.activity.MainMessageActivity" />
         <activity
@@ -30,15 +27,22 @@
             android:name=".ui.activity.MainActivity"
             android:label="@string/address" />
         <activity android:name=".ui.activity.SettingActivity" />
-        <activity android:name=".ui.activity.login.ChangePasswordActivity" />
-        <activity android:name=".ui.activity.login.RegisterAndPhoneLoginActivity" >
+        <activity
+            android:name=".ui.activity.login.ChangePasswordActivity"
+            android:label="修改密码" />
+        <activity
+            android:name=".ui.activity.login.RegisterAndPhoneLoginActivity"
+            android:label="登录/注册">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity
+            android:name=".ui.activity.login.SetPasswordActivity"
+            android:label="设置密码" />
     </application>
 
 </manifest>

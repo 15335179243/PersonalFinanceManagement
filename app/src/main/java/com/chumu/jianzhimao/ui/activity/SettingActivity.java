@@ -6,17 +6,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chumu.dt.v24.magicbox.appbox.ChuMuAppACache;
+import com.chumu.dt.v24.magicbox.appbox.ChuMuAppCleanManager;
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.login.ChangePasswordActivity;
+import com.chumu.jianzhimao.ui.activity.login.SetPasswordActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.example.common_base.base.BaseMvpActivity;
+import com.example.common_base.local_utils.SharedPrefrenceUtils;
 import com.example.common_base.utils.GlideCacheUtil;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class SettingActivity extends BaseMvpActivity<UserModle> {
 
-
-    ImageView mImgToolbarWeixin;
     @BindView(R.id.ll_about)
     LinearLayout mLlAbout;
     @BindView(R.id.ll_setpassword)
@@ -30,10 +34,8 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
     @BindView(R.id.ll_log_out)
     LinearLayout mLlLogOut;
     private GlideCacheUtil mCacheUtil;
-
-    private String mTeacherWechat;
-    private int mTeacherId;
-    private String mTeacherImg;
+    private String mCacheSize;
+    private String mAppClearSize;
 
     @Override
     protected int onCreateContentView() {
@@ -43,18 +45,11 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
     @Override
     public void initView() {
         setNoTitleBarAndFullScreen();
-        Intent intent = getIntent();
-        mTeacherWechat = intent.getStringExtra("mTeacherWechat");
-        mTeacherImg = intent.getStringExtra("mTeacherImg");
-        mTeacherId = intent.getIntExtra("mTeacherId", -1);
-        mImgToolbarWeixin.setVisibility(View.INVISIBLE);
         getTitleView().setTitle("设置");
         mCacheUtil = GlideCacheUtil.getInstance();
-        String cacheSize = mCacheUtil.getCacheSize(this);
-
-        if (cacheSize != null) {
-            mTvCache.setText(cacheSize);
-        }
+        mCacheSize = mCacheUtil.getCacheSize(this);
+        mAppClearSize = ChuMuAppCleanManager.getAppClearSize(this);
+        mTvCache.setText(mAppClearSize);
 
     }
 
@@ -104,41 +99,41 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
 //    }
 //
 //
-//    @OnClick({R.id.img_back, R.id.ll_about, R.id.ll_setpassword, R.id.ll_clear_cache, R.id.ll_follow_wechat, R.id.ll_log_out})
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            default:
-//                break;
-//            case R.id.img_back:
-//                finish();
-//                break;
-//            case R.id.ll_about:
+    @OnClick({ R.id.ll_about, R.id.ll_setpassword, R.id.ll_clear_cache, R.id.ll_follow_wechat, R.id.ll_log_out})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+
+            case R.id.ll_about:
 //                startActivity(new Intent(this, AboutUsActivity.class));
-//                break;
-//            case R.id.ll_setpassword:
-//                startActivity(new Intent(this, SetPasswordActivity.class));
-//                break;
-//            case R.id.ll_clear_cache:
-//                showToast("清除缓存");
-//                mCacheUtil.clearImageAllCache(SettingActivity.this);
-//                mTvCache.setText("缓存大小：" + "0kb");
-//                break;
-//            case R.id.ll_follow_wechat:
+                break;
+            case R.id.ll_setpassword:
+                startActivity(new Intent(this, ChangePasswordActivity.class));
+                break;
+            case R.id.ll_clear_cache:
+                showToast("清除缓存");
+
+                mCacheUtil.clearImageAllCache(SettingActivity.this);
+                ChuMuAppCleanManager.cleanApplicationData(this);
+                mTvCache.setText(mAppClearSize);
+                break;
+            case R.id.ll_follow_wechat:
 //                if (mTeacherWechat != null && mTeacherImg != null) {
 //                    showConsultTeacher(mTeacherImg, mTeacherWechat);
 //                } else {
 //                    showToast("未获取微信请检测网络状态");
 //
 //                }
-//
-//                break;
-//            case R.id.ll_log_out:
+
+                break;
+            case R.id.ll_log_out:
 //                SharedPrefrenceUtils.saveString(this, SpConfig.ACCESSTOKEN, null);
 //                showToast("退出成功");
-//
-//                break;
-//        }
-//    }
+
+                break;
+        }
+    }
 //
 //    @Override
 //    public void SetmButtonaddweixinClick() {

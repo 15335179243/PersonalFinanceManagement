@@ -22,10 +22,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity {
-
-
-    //    @BindView(R.id.viewPager)
-//    ViewPager mViewPager;
     @BindView(R.id.navigation)
     BottomNavigationView mNavigation;
     @BindView(R.id.container)
@@ -39,6 +35,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void initView() {
         getTitleView().mBackBtn.setVisibility(View.GONE);
+        ChuMuFramgentManager.addFragment(getSupportFragmentManager(), HomeFragment.class, R.id.container);
+        getTitleView().setTitle("首页");
         mNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -47,15 +45,19 @@ public class HomeActivity extends BaseActivity {
                         break;
                     case R.id.navigation_home:
                         ChuMuFramgentManager.addFragment(getSupportFragmentManager(), HomeFragment.class, R.id.container);
+                        getTitleView().setTitle("首页");
                         break;
                     case R.id.navigation_dashboard:
                         ChuMuFramgentManager.addFragment(getSupportFragmentManager(), RenMengFragment.class, R.id.container);
+                        getTitleView().setTitle("热门");
                         break;
                     case R.id.navigation_notifications:
                         ChuMuFramgentManager.addFragment(getSupportFragmentManager(), XiHuanFragment.class, R.id.container);
+                        getTitleView().setTitle("收藏");
                         break;
                     case R.id.navigation_my:
                         ChuMuFramgentManager.addFragment(getSupportFragmentManager(), MyFragment.class, R.id.container);
+                        getTitleView().setTitle("我的");
                         break;
                 }
 

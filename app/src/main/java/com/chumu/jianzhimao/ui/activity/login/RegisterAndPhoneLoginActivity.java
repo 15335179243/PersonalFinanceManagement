@@ -26,9 +26,11 @@ import com.chumu.dt.v24.magicbox.klog.ChuMuKLog;
 import com.chumu.dt.v24.magicbox.klog.ChuMuKLogUtil;
 import com.chumu.dt.v24.magicbox.klog.base.ChuMuBaseLog;
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.HomeActivity;
 import com.chumu.jianzhimao.ui.activity.OnSendMessageHandler;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.example.common_base.base.BaseMvpActivity;
+import com.example.common_base.utils.SpannableStringAttach;
 import com.example.common_base.utils.ToastUtil;
 import com.jzp.rotate3d.Rotate3D;
 import com.mob.MobSDK;
@@ -86,8 +88,10 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
         mType = getIntent().getIntExtra("type", -1);
         if (mType == INIT_TYPE_FIND_PASSWORD) {
             mRetrievePasswordTv.setText("验证码登录");
+            getTitleView().setTitle("找回密码");
         } else {
             mRetrievePasswordTv.setText("找回密码");
+            getTitleView().setTitle("登录/注册");
         }
     }
 
@@ -128,20 +132,17 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
 
     }
 
-    @OnClick({R.id.bt_login, R.id.tv_free_login, R.id.tv_agreement, R.id.tv_getcode, R.id.retrieve_password_tv})
+    @OnClick({R.id.bt_login, R.id.tv_free_login, R.id.tv_getcode, R.id.retrieve_password_tv})
     public void onClick(View v) {
         switch (v.getId()) {
             default:
                 break;
             case R.id.bt_login:
-                GoToLogin();
+//                GoToLogin();
+                startActivity(new Intent(this, HomeActivity.class));
                 break;
             case R.id.tv_free_login:
                 startActivity(new Intent(this, ForgetPasswordActivity.class));
-                finish();
-                break;
-            case R.id.tv_agreement:
-//                startActivity(new Intent(this, ForgetPasswordActivity.class));
                 finish();
                 break;
             case R.id.tv_getcode:
@@ -149,9 +150,9 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
                 break;
             case R.id.retrieve_password_tv:
                 if (mType == INIT_TYPE_FIND_PASSWORD) {
-                    startActivity(new Intent(this, RegisterAndPhoneLoginActivity.class).putExtra("tpye", INIT_TYPE));
+                    startActivity(new Intent(this, RegisterAndPhoneLoginActivity.class).putExtra("type", INIT_TYPE));
                 } else {
-                    startActivity(new Intent(this, RegisterAndPhoneLoginActivity.class).putExtra("tpye", INIT_TYPE_FIND_PASSWORD));
+                    startActivity(new Intent(this, RegisterAndPhoneLoginActivity.class).putExtra("type", INIT_TYPE_FIND_PASSWORD));
                 }
 
                 finish();
@@ -241,49 +242,22 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
     }
 
     private void mode1() {
-        SpannableString spannableString = new SpannableString("注册及表示您已经同意 用户协议 和 隐私政策");
-
-
-        spannableString.setSpan(new ClickableSpan() {
+        String userProtocol = "用户协议";
+        String privacy = "隐私政策";
+        String protocolTipText = "注册及表示您已经同意 用户协议 和 隐私政策";
+        int linkColor = getResources().getColor(R.color.app_theme_color);
+        SpannableStringAttach.create(protocolTipText)
+                .addClickableSpan(userProtocol, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        agreementOnCilck();
+                    }
+                }).addClickableSpan(privacy, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
             @Override
-            public void onClick(@NonNull View widget) {
-                ToastUtil.toastShortMessage("sdsdsa");
+            public void onClick(View v) {
+                agreementOnCilck();
             }
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setColor(ContextCompat.getColor(RegisterAndPhoneLoginActivity.this, R.color.app_theme_color));//设置颜色
-                ds.setUnderlineText(false);//去掉下划线
-            }
-        }, 11, 15, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-
-
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.app_theme_color));
-        spannableString.setSpan(colorSpan, 11, 15, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-
-//
-//        ClickableSpan clickableSpan2 = new ClickableSpan() {
-//            @Override
-//            public void onClick(View view) {
-//
-////                agreementOnCilck();
-//            }
-//
-//            @Override
-//            public void updateDrawState(TextPaint ds) {
-//                ds.setColor(ContextCompat.getColor(RegisterAndPhoneLoginActivity.this, R.color.app_theme_color));//设置颜色
-//                ds.setUnderlineText(false);//去掉下划线
-//            }
-//        };
-//
-//        spannableString.setSpan(clickableSpan2, 17, 22, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-//        ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.app_theme_color));
-//        spannableString.setSpan(colorSpan2, 17, 22, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-
-
-        mTvAgreement.setText(spannableString);
-        mTvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
-
+        }).attach(mTvAgreement);
     }
 
     private void agreementOnCilck() {

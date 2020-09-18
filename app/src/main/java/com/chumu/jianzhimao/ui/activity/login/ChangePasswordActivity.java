@@ -4,13 +4,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.chumu.dt.v24.magicbox.swipeback.ChuMuSwipeBack;
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.example.common_base.base.BaseMvpActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+@ChuMuSwipeBack(true)
 public class ChangePasswordActivity extends BaseMvpActivity<UserModle> {
 
 

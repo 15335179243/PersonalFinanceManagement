@@ -14,8 +14,7 @@ import butterknife.OnClick;
 public class SetPasswordActivity extends BaseMvpActivity<UserModle> {
 
 
-    @BindView(R.id.ed_old_password)
-    EditText mEdOldPassword;
+
     @BindView(R.id.ed_new_password)
     EditText mEdNewPassword;
     @BindView(R.id.ed_retype)
