@@ -1,7 +1,15 @@
 package com.example.common_base.base;
 
 
+import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 public abstract class BaseMvpActivity <M> extends BaseActivity implements ICommonView {
 
@@ -21,10 +29,6 @@ public abstract class BaseMvpActivity <M> extends BaseActivity implements ICommo
         return new CommonPresenter();
     }
 
-    @Override
-    public void onResponse(int whichApi, Object[] t) {
-        mLoading.dismiss();
-    }
 
     public abstract M getModel();
 

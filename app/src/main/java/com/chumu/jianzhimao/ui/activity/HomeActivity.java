@@ -37,6 +37,7 @@ public class HomeActivity extends BaseActivity {
         getTitleView().mBackBtn.setVisibility(View.GONE);
         ChuMuFramgentManager.addFragment(getSupportFragmentManager(), HomeFragment.class, R.id.container);
         getTitleView().setTitle("首页");
+        getTitleView().setBackgroundColor(getResources().getColor(R.color.app_theme_color));
         mNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

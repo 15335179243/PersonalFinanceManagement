@@ -1,5 +1,7 @@
 package com.example.common_base.base;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

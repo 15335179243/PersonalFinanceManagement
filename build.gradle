@@ -94,7 +94,11 @@ task clean(type: Delete) {
                 xlogVersion = '1.6.1',
                 materialDesignVersion = '1.1.0-alpha08',
                 luban='1.1.8',
-                banner='2.1.0'
+                banner='2.1.0',
+
+                //arouter
+                arouterApiVersion = '1.5.0',
+                arouterCompilerVersion = '1.2.2',
         ]
 
     }

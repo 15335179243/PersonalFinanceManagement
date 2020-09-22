@@ -17,6 +17,11 @@ android {
         ndk {
             abiFilters "armeabi"
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -94,9 +99,9 @@ dependencies {
 //        exclude group: 'com.google.zxing'
 //    }
 
-//    //alibaba arouter
-//    api "com.alibaba:arouter-api:$arouterApiVersion"
-//    annotationProcessor "com.alibaba:arouter-compiler:$arouterCompilerVersion"
+    //alibaba arouter
+    api "com.alibaba:arouter-api:$arouterApiVersion"
+    annotationProcessor "com.alibaba:arouter-compiler:$arouterCompilerVersion"
     //内存泄漏检测
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"

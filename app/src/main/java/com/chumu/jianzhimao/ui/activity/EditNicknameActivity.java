@@ -77,6 +77,11 @@ public class EditNicknameActivity extends BaseMvpActivity<UserModle> {
 
     }
 
+    @Override
+    public void onResponse(int whichApi, Object[] t) {
+
+    }
+
 
     @OnClick({R.id.edit_nickname, R.id.btn_confirm})
     public void onClick(View v) {

@@ -15,9 +15,13 @@ public class SPConstant {
     //是否第一次登录
     public static final String FIRST_IN = "first_in" ;
     public static String PORTRAIT_NAME = BaseApplication.getApplication().getPackageName();
-
-    static class Element {
-
+   public static class Login {
+        public static final String MOBILE = "mobile" ;// 手机号
+        public static final String ID = "id" ;// 用户id
+        public static final String NICKNAME = "nickName" ;// 昵称
+        public static final String TOKEN = "token" ;// token
+        public static final String HEAD_PICTURE = "headPicture" ;// 头像
+        public static final String SIGNATURE = "signature" ;// 个性签名
 
     }
 

@@ -22,6 +22,11 @@ android {
                 JPUSH_APPKEY : "7aa4442319c651ce43e81b8f", //Portal上注册的包名对应的 appKey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -55,7 +60,7 @@ android {
         release {
             keyAlias 'ChuMuYa'
             keyPassword '123456'
-//            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
             storeFile file('D:/My Code/chumu.jks.old')
             storePassword '123456'
             v2SigningEnabled true
@@ -63,8 +68,8 @@ android {
         debug {
             keyAlias 'ChuMuYa'
             keyPassword '123456'
-            //            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
-            storeFile file('D:/My Code/chumu.jks.old')
+            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+//            storeFile file('D:/My Code/chumu.jks.old')
             storePassword '123456'
             v2SigningEnabled true
         }
@@ -86,7 +91,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-
+    annotationProcessor "com.alibaba:arouter-compiler:$arouterCompilerVersion"
     implementation 'com.jzp:rotate3D:1.0.0'
     implementation project(path: ':common_base')
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"

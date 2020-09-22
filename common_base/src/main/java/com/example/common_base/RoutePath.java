@@ -9,6 +9,13 @@ package com.example.common_base;
  * Describe: 存放域名路径
  */
 
-public class UrlPath {
-    public static  String BaseUrl="http://192.168.40.21:9091/";
+public interface RoutePath {
+
+    interface Login{
+        /**
+         * 密码登录
+         */
+        String LOGIN_PWD = "/app/loginPwd";
+
+    }
 }

@@ -1,14 +1,22 @@
 package com.example.common_base.base;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 
 import com.example.common_base.ApiService;
+import com.example.common_base.NetConfig;
 import com.example.common_base.base.convert.MyGsonConverterFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -52,12 +60,26 @@ public class NetManager {
                     @Override
                     public void onSuccess(Object value) {
                         view.onResponse(whichApi, value,t);
+
+                        ResponseBody str = (ResponseBody) t[0];
+
+                        try {
+                            Log.e("chumu", "onResponse: "+str.string() );
+                            if (new JSONObject(str.string()).getInt("code")==4002) {
+
+                                throw  new NotSignException("没有登录");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
 
                     @Override
                     public void onFailed(Throwable e) {
-                        e.addSuppressed(e);
+
                         view.onError(whichApi, e);
                     }
                 });

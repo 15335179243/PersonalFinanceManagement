@@ -69,7 +69,12 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
 
     }
 
-//    @Override
+    @Override
+    public void onResponse(int whichApi, Object[] t) {
+
+    }
+
+    //    @Override
 //    public void onResponse(int whichApi, Object[] t) {
 //        hide();
 //        switch (whichApi) {

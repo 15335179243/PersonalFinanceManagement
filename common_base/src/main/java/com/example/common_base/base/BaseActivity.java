@@ -19,9 +19,11 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chumu.dt.v24.magicbox.ChuMuSharedPreferences;
 import com.chumu.dt.v24.magicbox.base.ChuMuBaseActivity;
 import com.example.common_base.R;
+import com.example.common_base.RoutePath;
 import com.example.common_base.SPConstant;
 import com.example.common_base.boradcast.NetStatusBroadCast;
 import com.example.common_base.design.CommonTitle;
@@ -253,6 +255,8 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
     @Override
     public void onSingEvent() {
         //未登录操作
+        ARouter.getInstance().build(RoutePath.Login.LOGIN_PWD).navigation();
+
     }
 
     /**
