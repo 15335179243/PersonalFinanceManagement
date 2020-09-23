@@ -1,12 +1,17 @@
 package com.chumu.jianzhimao.ui.activity;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
+
+import com.chumu.dt.v24.magicbox.ChuMuSharedPreferences;
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.login.RegisterAndPhoneLoginActivity;
 import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseActivity;
+
 import butterknife.BindView;
 
 public class SplashActivity extends BaseActivity {
@@ -56,7 +61,7 @@ public class SplashActivity extends BaseActivity {
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             mChuMuSharedPreferences.putValue(SPConstant.FIRST_IN, false);
         } else {
-            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            startActivity(new Intent(SplashActivity.this, RegisterAndPhoneLoginActivity.class));
         }
         finish();
     }
@@ -78,6 +83,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        mApplication.mToken = (String) new ChuMuSharedPreferences(this, SPConstant.PORTRAIT_NAME).getValue(SPConstant.Login.TOKEN, "");
         initCountDown();
         setNoTitleBarAndFullScreen();
     }

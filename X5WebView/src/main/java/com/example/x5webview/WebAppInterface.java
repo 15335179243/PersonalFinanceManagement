@@ -27,7 +27,7 @@ public class WebAppInterface {
 
     @JavascriptInterface
     public String getToken() {
-        return APPAplication.token;
+        return "APPAplication.token";
 
     }
 

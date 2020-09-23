@@ -59,13 +59,16 @@ public class NetManager {
                 .subscribe(new BaseObserver() {
                     @Override
                     public void onSuccess(Object value) {
-                        view.onResponse(whichApi, value,t);
 
-                        ResponseBody str = (ResponseBody) t[0];
+
+                        ResponseBody str = (ResponseBody) value;
 
                         try {
-                            Log.e("chumu", "onResponse: "+str.string() );
-                            if (new JSONObject(str.string()).getInt("code")==4002) {
+
+                            String string = str.string();
+                            view.onResponse(whichApi, string,t);
+                            Log.e("chumu", "onResponse: "+string );
+                            if (new JSONObject(string).getInt("code")==4002) {
 
                                 throw  new NotSignException("没有登录");
                             }

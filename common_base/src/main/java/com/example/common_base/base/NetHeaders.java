@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.webkit.WebSettings;
 
+import com.example.common_base.utils.DeviceIdUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,20 +42,22 @@ public class NetHeaders {
     public static Map getHeadMap() {
 //        sUuid = !TextUtils.isEmpty(BaseApplication.mUuid.toString()) ? Application10.getUuid() : getLocalUUIDX(Application10.getAppContext());
         Map<String, String> headers = new HashMap<>();
-        headers.put("Pragma", "no-cache");
-        headers.put("Cache-Control", "no-cache");
-//        headers.put("Authorization", Application10.getApplication().mToken);
-        headers.put("UUID", BaseApplication.mUuid.toString());
-//        headers.put("UUID", "ceac3784-6732-3872-9d37-06e14bbe63fb");
-//        headers.put("UUIDX", sUuid);
-        headers.put("device-tag", "0");
-//        headers.put("User-Agent", getUserAgent());
-        headers.put("lang", "zh-cn");
-        headers.put("action", "auto");
-        headers.put("android-channel", "qq");
-        headers.put("charset", "UTF-8");
-        headers.put("device-tag", "0");
-        headers.put("fingerprint-shumei", "20190511180141414050c7af7815a81b11195bb67be624017f1983babeea53");
+//        headers.put("Pragma", "no-cache");
+//        headers.put("Cache-Control", "no-cache");
+////        headers.put("Authorization", Application10.getApplication().mToken);
+//        headers.put("UUID", BaseApplication.mUuid.toString());
+////        headers.put("UUID", "ceac3784-6732-3872-9d37-06e14bbe63fb");
+////        headers.put("UUIDX", sUuid);
+//        headers.put("device-tag", "0");
+////        headers.put("User-Agent", getUserAgent());
+//        headers.put("lang", "zh-cn");
+//        headers.put("action", "auto");
+//        headers.put("android-channel", "qq");
+//        headers.put("charset", "UTF-8");
+//        headers.put("device-tag", "0");
+//        headers.put("fingerprint-shumei", "20190511180141414050c7af7815a81b11195bb67be624017f1983babeea53");
+        headers.put("deviceId", DeviceIdUtil.getDeviceId(BaseApplication.getAppContext()));
+        headers.put("token", BaseApplication.mToken);
         return headers;
     }
 

@@ -185,56 +185,9 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
     }
 
 
-    EventHandler eh = new EventHandler() {
 
-        @Override
-        public void afterEvent(int event, int result, Object data) {
-            ChuMuKLogUtil.printLine("chumu", true);
-            ChuMuKLog.e(result + "++++++++++" + data);
-            ChuMuKLogUtil.printLine("chumu", false);
-            if (result == SMSSDK.RESULT_COMPLETE) {
-                //回调完成
-                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    //提交验证码成功
-                    startActivity(new Intent(RetrievePasswordActivity.this, SetPasswordActivity.class).putExtra(SPConstant.Login.MOBILE, mPhone));
-                    finish();
-                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                    hide();
-                    onCountDown();
-                    //获取验证码成功
-                } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-                    //返回支持发送验证码的国家列表
-                }
-            } else {
-                ((Throwable) data).printStackTrace();
-            }
-        }
-    };
 
-    private void onCountDown() {
-        mTvGetcode.setClickable(false);
-        mTvGetcode.setVisibility(View.GONE);
-        mTvCountDown.setVisibility(View.VISIBLE);
-        mCountDownTimer = new CountDownTimer(60000, 1000) {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onTick(long l) {
-                mTvCountDown.setText(String.valueOf(l / 1000) + "s");
-            }
 
-            @Override
-            public void onFinish() {
-                mTvGetcode.setClickable(true);
-                mTvGetcode.setVisibility(View.VISIBLE);
-                mTvCountDown.setVisibility(View.GONE);
-                if (mCountDownTimer != null) {
-                    mCountDownTimer = null;
-                }
-
-            }
-        }.start();
-        showToast("验证码发送成功");
-    }
 
     protected void onDestroy() {
         super.onDestroy();
@@ -242,7 +195,7 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
             mCountDownTimer.cancel();
             mCountDownTimer = null;
         }
-        SMSSDK.unregisterEventHandler(eh);
+
     }
 
     private void GoToLogin() {

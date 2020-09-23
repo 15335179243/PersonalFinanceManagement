@@ -23,17 +23,19 @@ import butterknife.OnClick;
 import okhttp3.ResponseBody;
 
 import static com.example.common_base.ApiConfig.USER_LOGIN;
+import static com.example.common_base.ApiConfig.USER_Set_PASSWORD_LOGIN;
 
 public class SetPasswordActivity extends BaseMvpActivity<UserModle> {
 
 
-    @BindView(R.id.ed_new_password)
+    @BindView(R.id.ed_password)
     EditText mEdNewPassword;
     @BindView(R.id.ed_retype)
     EditText mEdRetype;
     @BindView(R.id.btn_confirm)
     Button mBtnConfirm;
     private String mMobile;
+    private String v_Code;
 
 
     @Override
@@ -44,6 +46,7 @@ public class SetPasswordActivity extends BaseMvpActivity<UserModle> {
     @Override
     public void initView() {
         mMobile = getIntent().getStringExtra(SPConstant.Login.MOBILE);
+        v_Code = getIntent().getStringExtra(SPConstant.Login.V_CODE);
     }
 
     @Override
@@ -63,15 +66,14 @@ public class SetPasswordActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void onResponse(int whichApi, Object[] t) {
-
+        hide();
+        String str = (String) t[0];
         switch (whichApi) {
             default:
                 break;
 
-            case USER_LOGIN:
-                ResponseBody str = (ResponseBody) t[0];
-                try {
-                    BeanLogin beanLogin = new Gson().fromJson(str.string(), BeanLogin.class);
+            case USER_Set_PASSWORD_LOGIN:
+                    BeanLogin beanLogin = new Gson().fromJson(str, BeanLogin.class);
                         ToastUtil.toastShortMessage(beanLogin.getDesc());
                     if (beanLogin.getCode() == 200) {
                             mChuMuSharedPreferences.putObject(SPConstant.Login.HEAD_PICTURE, beanLogin.getData().getHeadPicture());
@@ -87,9 +89,7 @@ public class SetPasswordActivity extends BaseMvpActivity<UserModle> {
                         startActivity(new Intent(this, RegisterAndPhoneLoginActivity.class));
                         finish();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
 
                 break;
 
@@ -108,7 +108,7 @@ public class SetPasswordActivity extends BaseMvpActivity<UserModle> {
                     return;
                 }
                 if (mEdNewPassword.getText().toString().trim().equals(mEdRetype.getText().toString().trim())) {
-                    mPresenter.getData(ApiConfig.USER_Set_PASSWORD_LOGIN,mMobile, mEdNewPassword.getText().toString().trim(), "chumuya", AppConfig.User.register);
+                    mPresenter.getData(USER_Set_PASSWORD_LOGIN,mMobile, mEdNewPassword.getText().toString().trim(), 1, AppConfig.User.register,v_Code);
                 } else {
                     ToastUtil.toastShortMessage("两次输入不一致");
 

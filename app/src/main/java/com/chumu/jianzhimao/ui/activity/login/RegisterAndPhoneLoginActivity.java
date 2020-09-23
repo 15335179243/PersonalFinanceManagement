@@ -84,6 +84,7 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
     private Rotate3D rotate;
     private int mType;
     private String mPhone;
+    private String mSmsCode;
 
 
     @Override
@@ -98,9 +99,6 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
 
     @Override
     public void initView() {
-        MobSDK.submitPolicyGrantResult(true, null);
-        SMSSDK.registerEventHandler(eh); //注册短信回调
-        SMSSDK.registerEventHandler(eh);
         mode1();
         mType = getIntent().getIntExtra("type", -1);
         if (mType == INIT_TYPE_FIND_PASSWORD) {
@@ -112,47 +110,6 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
         }
     }
 
-
-//注册一个事件回调监听，用于处理SMSSDK接口请求的结果
-
-    EventHandler eh = new EventHandler() {
-
-        @Override
-        public void afterEvent(int event, int result, Object data) {
-            ChuMuKLogUtil.printLine("chumu", true);
-            ChuMuKLog.e(result + "++++++++++" + data);
-            ChuMuKLogUtil.printLine("chumu", false);
-            if (result == SMSSDK.RESULT_COMPLETE) {
-                //回调完成
-                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    //提交验证码成功
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mPresenter.getData(USER_LOGIN, mPhone, 1, AppConfig.User.Verification_Code_login);
-                        }
-                    });
-
-                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            hide();
-                            onCountDown();
-                        }
-                    });
-
-                    //获取验证码成功
-                } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-                    //返回支持发送验证码的国家列表
-                } else {
-                    ToastUtil.toastShortMessage("验证码错误");
-                }
-            } else {
-                ((Throwable) data).printStackTrace();
-            }
-        }
-    };
 
     @Override
     public void initData() {
@@ -168,21 +125,16 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
 
     @Override
     public void onResponse(int whichApi, Object[] t) {
-        ResponseBody str = (ResponseBody) t[0];
+        hide();
+        String str = (String) t[0];
         switch (whichApi) {
             default:
                 break;
-
             case USER_LOGIN:
-
-                try {
-                    Log.e("chumu", "onResponse: "+str.string() );
-                    BeanLogin beanLogin = null;
-                    if (str.string()!=null) {
-                        beanLogin = new Gson().fromJson(str.string(), BeanLogin.class);
-
-//                    ToastUtil.toastShortMessage(beanLogin.getDesc());
-                    if (beanLogin.getCode() == 200) {
+                BeanLogin beanLogin = new Gson().fromJson(str, BeanLogin.class);
+                ToastUtil.toastShortMessage(beanLogin.getDesc());
+                if (beanLogin.getCode() == 200) {
+                    if (beanLogin.getData() != null && beanLogin.getData().isRegister()) {
                         mChuMuSharedPreferences.putObject(SPConstant.Login.HEAD_PICTURE, beanLogin.getData().getHeadPicture());
                         mChuMuSharedPreferences.putObject(SPConstant.Login.MOBILE, beanLogin.getData().getMobile());
                         mChuMuSharedPreferences.putObject(SPConstant.Login.NICKNAME, beanLogin.getData().getNickName());
@@ -192,50 +144,50 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
                         mChuMuSharedPreferences.putObject(SPConstant.Login.ID, beanLogin.getData().getId());
                         startActivity(new Intent(this, HomeActivity.class));
                         finish();
+                    } else {
+                        startActivity(new Intent(this, SetPasswordActivity.class).putExtra(SPConstant.Login.MOBILE, mPhone).putExtra(SPConstant.Login.V_CODE,mSmsCode));
+                        finish();
+                    }
 
-                    }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
                 break;
             case GET_V_CODE:
+                JSONObject jsonObject = null;
                 try {
-                    JSONObject jsonObject = new JSONObject(str.string());
-                    if (jsonObject.optInt("code") == 200) {
-                        mTvGetcode.setClickable(false);
-                        mTvGetcode.setVisibility(View.GONE);
-                        mTvCountDown.setVisibility(View.VISIBLE);
-                        mCountDownTimer = new CountDownTimer(60000, 1000) {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onTick(long l) {
-                                mTvCountDown.setText(String.valueOf(l / 1000) + "s");
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                mTvGetcode.setClickable(true);
-                                mTvGetcode.setVisibility(View.VISIBLE);
-                                mTvCountDown.setVisibility(View.GONE);
-                                if (mCountDownTimer != null) {
-                                    mCountDownTimer = null;
-                                }
-
-                            }
-                        }.start();
-                        showToast("验证码发送成功");
-                    } else {
-                        showToast(jsonObject.optString("message"));
-                    }
+                    jsonObject = new JSONObject(str);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }
+                if (jsonObject.optInt("code") == 200) {
+                    mTvGetcode.setClickable(false);
+                    mTvGetcode.setVisibility(View.GONE);
+                    mTvCountDown.setVisibility(View.VISIBLE);
+                    mCountDownTimer = new CountDownTimer(60000, 1000) {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onTick(long l) {
+                            mTvCountDown.setText(String.valueOf(l / 1000) + "s");
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            mTvGetcode.setClickable(true);
+                            mTvGetcode.setVisibility(View.VISIBLE);
+                            mTvCountDown.setVisibility(View.GONE);
+                            if (mCountDownTimer != null) {
+                                mCountDownTimer = null;
+                            }
+
+                        }
+                    }.start();
+                    showToast("验证码发送成功");
+                } else {
+                    showToast(jsonObject.optString("message"));
                 }
                 break;
-
         }
+
+
     }
 
     @OnClick({R.id.bt_login, R.id.tv_free_login, R.id.tv_getcode, R.id.retrieve_password_tv})
@@ -268,20 +220,19 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
     }
 
 
-
     protected void onDestroy() {
         super.onDestroy();
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
             mCountDownTimer = null;
         }
-        SMSSDK.unregisterEventHandler(eh);
+
     }
 
     private void GoToLogin() {
         String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0-9])|(16[013678])|(19[0136789]))\\d{8}$";
         mPhone = mEdPhone.getText().toString().trim();
-        String smsCode = mEdVerificationCode.getText().toString().trim();
+        mSmsCode = mEdVerificationCode.getText().toString().trim();
         if (mPhone.length() != 11) {
             showToast("手机号长度为11位");
             return;
@@ -290,8 +241,8 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
             Matcher m = p.matcher(mPhone);
             boolean isMatch = m.matches();
             if (isMatch) {
-                if (!TextUtils.isEmpty(smsCode)) {
-                    mPresenter.getData(USER_LOGIN, mPhone, 1, AppConfig.User.Verification_Code_login,smsCode);
+                if (!TextUtils.isEmpty(mSmsCode)) {
+                    mPresenter.getData(USER_LOGIN, mPhone, 1, AppConfig.User.Verification_Code_login, mSmsCode);
                 } else {
                     showToast("验证码不能为空");
                 }
@@ -323,30 +274,6 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
 
     }
 
-    private void onCountDown() {
-        mTvGetcode.setClickable(false);
-        mTvGetcode.setVisibility(View.GONE);
-        mTvCountDown.setVisibility(View.VISIBLE);
-        mCountDownTimer = new CountDownTimer(60000, 1000) {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onTick(long l) {
-                mTvCountDown.setText(String.valueOf(l / 1000) + "s");
-            }
-
-            @Override
-            public void onFinish() {
-                mTvGetcode.setClickable(true);
-                mTvGetcode.setVisibility(View.VISIBLE);
-                mTvCountDown.setVisibility(View.GONE);
-                if (mCountDownTimer != null) {
-                    mCountDownTimer = null;
-                }
-
-            }
-        }.start();
-        showToast("验证码发送成功");
-    }
 
     private void mode1() {
         String userProtocol = "用户协议";

@@ -32,6 +32,8 @@ public interface ApiService {
     String UPDATE_PASSWORD = "/appuser/updatePassword";
     String BROWSING_HISTORY = "/appUser/getBrowsingHistory";
     String GET_V_CODE = "/appUser/getVCode";
+    String HOME_TAB = "/index/positionTab";
+
 
     @POST(UPLOAD_IMAGE)
     @Multipart
@@ -41,16 +43,27 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<ResponseBody> getUpdatePassword(@Field("mobile") String mobile, @Field("oldPassWord") String oldPassWord, @Field("newPassWord") String newPassWord);
 
+    @POST(UPDATE_PASSWORD)
+    @FormUrlEncoded
+    Observable<ResponseBody> getUpdateRegisterPassword(@Field("mobile") String mobile, @Field("oldPassWord") String oldPassWord, @Field("newPassWord") String newPassWord);
+
     @GET(GET_V_CODE)
     Observable<ResponseBody> getVCode(@Query("mobile") String mobile);
 
     @POST(USER_LOGIN)
     @FormUrlEncoded
-    Observable<ResponseBody> getLoginPassword(@Field("mobile") String mobile, @Field("password") String password, @Field("createChannel") String channel, @Field("type") int type);
+    Observable<ResponseBody> getLoginPassword(@Field("mobile") String mobile, @Field("password") String password, @Field("createChannel") int channel, @Field("type") int type);
 
     @POST(USER_LOGIN)
     @FormUrlEncoded
     Observable<ResponseBody> getLoginVerification(@Field("mobile") String mobile, @Field("createChannel") int channel, @Field("type") int type, @Field("vCode") String vCode);
+
+    @POST(USER_LOGIN)
+    @FormUrlEncoded
+    Observable<ResponseBody> getLoginSetPassword(@Field("mobile") String mobile,@Field("password") String password, @Field("createChannel") int channel, @Field("type") int type, @Field("vCode") String vCode);
+
+    @GET(HOME_TAB)
+    Observable<ResponseBody> getHomeTab();
 
     @POST(BROWSING_HISTORY)
     @FormUrlEncoded

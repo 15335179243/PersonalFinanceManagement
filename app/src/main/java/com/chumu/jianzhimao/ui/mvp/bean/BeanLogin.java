@@ -17,9 +17,9 @@ public class BeanLogin {
     /**
      * code : 200
      * desc : 成功
-     * requestTime : 1600791809018
-     * traceId : ac110001160079180900310135555
-     * data : {"whetherRegister":false}
+     * requestTime : 1600394332863
+     * traceId : c0a8281e16003943327561003312124
+     * data : {"id":5,"mobile":"15819495896","signature":"暂无个性签名,点击进行设置","nickName":"普通会员","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwidXNlckluZm8iOnsidXNlcklkIjo1fSwiZXhwIjoxNjAwNDgwNzMyLCJpYXQiOjE2MDAzOTQzMzJ9.bkvweH4NzTbEEDMt_ZbJUHOBnbwB2aG1qn8U0X3i9zc","headPicture":"http://192.168.40.26:9000/appimage/file1600393530461","\u201dwhetherRegister\u201c":true}
      */
 
     private int code;
@@ -68,7 +68,6 @@ public class BeanLogin {
         this.data = data;
     }
 
-
     public static class DataBean {
         /**
          * id : 5
@@ -86,6 +85,7 @@ public class BeanLogin {
         private String nickName;
         private String token;
         private String headPicture;
+        private boolean register; // FIXME check this code
 
         public int getId() {
             return id;
@@ -135,5 +135,12 @@ public class BeanLogin {
             this.headPicture = headPicture;
         }
 
+        public boolean isRegister() {
+            return register;
+        }
+
+        public void setRegister(boolean register) {
+            this.register = register;
+        }
     }
 }

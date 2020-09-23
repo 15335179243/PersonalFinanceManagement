@@ -9,6 +9,7 @@ public class ApiConfig {
     public static final int USER_PASSWORD_LOGIN = 5;
     public static final int USER_Set_PASSWORD_LOGIN = 6;
     public static final int GET_V_CODE = 7;
+    public static final int GET_HOME_TAB= 8;
 
 
 

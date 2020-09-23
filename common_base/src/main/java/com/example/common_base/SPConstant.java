@@ -22,6 +22,7 @@ public class SPConstant {
         public static final String TOKEN = "token" ;// token
         public static final String HEAD_PICTURE = "headPicture" ;// 头像
         public static final String SIGNATURE = "signature" ;// 个性签名
+        public static final String V_CODE = "v_code" ;// 验证码
 
     }
 

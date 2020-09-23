@@ -98,7 +98,7 @@ public interface WebViewJsInterface {
         @JavascriptInterface
         public String getAuthorization() {
             Log.e("chumu", "getAuthorization: " );
-            return APPAplication.token;
+            return "";
         }
 
 

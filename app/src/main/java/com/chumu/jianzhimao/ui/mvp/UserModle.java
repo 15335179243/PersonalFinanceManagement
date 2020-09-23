@@ -38,16 +38,21 @@ public class UserModle implements ICommonModel {
                 if (from != null && filePart != null) {
                     mManager.method(mManager.getNetService().getUpLodeImg(from, filePart), view, whichApi, t);
                 }
+                break;
             case ApiConfig.USER_LOGIN:
 
                 mManager.method(mManager.getNetService().getLoginVerification((String) t[0], (int) t[1], (int) t[2],(String) t[3]), view, whichApi, t);
 
                 break;
             case ApiConfig.USER_PASSWORD_LOGIN:
-                mManager.method(mManager.getNetService().getLoginPassword((String) t[0], (String) t[1], (String) t[2],(int) t[3]), view, whichApi, t);
+                mManager.method(mManager.getNetService().getLoginPassword((String) t[0], (String) t[1], (int) t[2],(int) t[3]), view, whichApi, t);
                 break;
             case ApiConfig.GET_V_CODE:
                 mManager.method(mManager.getNetService().getVCode((String) t[0]), view, whichApi, t);
+
+                break;
+            case ApiConfig.USER_Set_PASSWORD_LOGIN:
+                mManager.method(mManager.getNetService().getLoginSetPassword((String) t[0],(String) t[1],(int) t[2],(int) t[3],(String) t[4]), view, whichApi, t);
 
                 break;
 

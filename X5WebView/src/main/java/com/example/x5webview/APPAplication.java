@@ -10,7 +10,7 @@ import com.tencent.smtt.sdk.QbSdk;
 import java.util.UUID;
 
 public class APPAplication extends Application {
-    public static String token = null;
+
     public static UUID mUuid;
     public static String mIMEI;
     public static String mDID;

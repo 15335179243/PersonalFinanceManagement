@@ -1,6 +1,7 @@
 package com.chumu.jianzhimao.ui.fragment;
 
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,16 +10,27 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.HomeActivity;
+import com.chumu.jianzhimao.ui.activity.login.SetPasswordActivity;
 import com.chumu.jianzhimao.ui.adapter.VpHomeAdapter;
 import com.chumu.jianzhimao.ui.mvp.HomeModle;
+import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeTab;
+import com.chumu.jianzhimao.ui.mvp.bean.BeanLogin;
+import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpFragment;
+import com.example.common_base.utils.ToastUtil;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
+
+import static com.example.common_base.ApiConfig.GET_HOME_TAB;
+import static com.example.common_base.ApiConfig.USER_LOGIN;
 
 
 /**
@@ -31,6 +43,7 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
     @BindView(R.id.vp_page)
     ViewPager2 mVpPage;
     private VpHomeAdapter mVpHomeAdapter;
+    private List<BeanHomeTab.DataBean> mData;
 
 
     @Override
@@ -84,11 +97,20 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
         new TabLayoutMediator(mTabLayout, mVpPage, new TabLayoutMediator.OnConfigureTabCallback() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText("Tab" + position);
+                if (mData!=null) {
+                    tab.setText(mData.get(position).getIndexName());
+                }
+
             }
         }).attach();
 
 
+    }
+
+    @Override
+    public void initmvp() {
+        super.initmvp();
+        mPresenter.getData(GET_HOME_TAB);
     }
 
     @Override
@@ -111,7 +133,20 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
 
     @Override
     public void onResponse(int whichApi, Object[] t) {
-
+        hide();
+        String str = (String) t[0];
+        switch (whichApi) {
+            default:
+                break;
+            case GET_HOME_TAB:
+                BeanHomeTab beanHomeTab = new Gson().fromJson(str, BeanHomeTab.class);
+                ToastUtil.toastShortMessage(beanHomeTab.getDesc());
+                if (beanHomeTab.getCode() == 200) {
+                    mData = beanHomeTab.getData();
+                    mVpHomeAdapter.notifyDataSetChanged();
+                }
+                break;
+        }
     }
 
 //    @Override

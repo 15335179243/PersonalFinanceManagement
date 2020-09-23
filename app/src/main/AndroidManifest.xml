@@ -24,7 +24,11 @@
             android:name=".ui.activity.HomeActivity"
             android:label="@string/home" />
         <activity android:name=".ui.activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
@@ -37,11 +41,7 @@
             android:name=".ui.activity.login.RegisterAndPhoneLoginActivity"
             android:label="登录/注册">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.login.SetPasswordActivity"

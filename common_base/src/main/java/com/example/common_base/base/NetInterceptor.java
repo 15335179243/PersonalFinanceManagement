@@ -111,9 +111,6 @@ public class NetInterceptor {
                     .newBuilder()
                     .scheme(request.url().scheme())
                     .host(request.url().host())
-                    .addQueryParameter("token1", "1")
-//                    .addPathSegment()
-                    .addQueryParameter("token2", "2")
                     .build();
             Request newRequest = request.newBuilder()
                     .method(request.method(), request.body())

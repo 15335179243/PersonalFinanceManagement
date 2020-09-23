@@ -32,6 +32,8 @@ import cn.smssdk.SMSSDK;
 import okhttp3.ResponseBody;
 
 import static com.example.common_base.ApiConfig.USER_LOGIN;
+import static com.example.common_base.ApiConfig.USER_PASSWORD_LOGIN;
+
 @Route(path = RoutePath.Login.LOGIN_PWD)
 public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
 
@@ -84,15 +86,16 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void onResponse(int whichApi, Object[] t) {
-
+        hide();
+        String str = (String) t[0];
         switch (whichApi) {
             default:
                 break;
 
-            case USER_LOGIN:
-                ResponseBody str = (ResponseBody) t[0];
-                try {
-                    BeanLogin beanLogin = new Gson().fromJson(str.string(), BeanLogin.class);
+            case USER_PASSWORD_LOGIN:
+
+
+                    BeanLogin beanLogin = new Gson().fromJson(str, BeanLogin.class);
                     ToastUtil.toastShortMessage(beanLogin.getDesc());
                     if (beanLogin.getCode() == 200) {
                             mChuMuSharedPreferences.putObject(SPConstant.Login.HEAD_PICTURE, beanLogin.getData().getHeadPicture());
@@ -106,9 +109,7 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
                             finish();
 
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
 
                 break;
 
@@ -122,8 +123,7 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
                 break;
             case R.id.bt_login:
                 GoToLogin();
-                startActivity(new Intent(this, HomeActivity.class));
-                finish();
+
                 break;
             case R.id.verification_login_tv:
                 startActivity(new Intent(this, RegisterAndPhoneLoginActivity.class));
@@ -149,7 +149,7 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
             boolean isMatch = m.matches();
             if (isMatch) {
                 if (!TextUtils.isEmpty(password)) {
-                    mPresenter.getData(ApiConfig.USER_PASSWORD_LOGIN, mPhone,password, "chumuya", AppConfig.User.Account_Password_login);
+                    mPresenter.getData(USER_PASSWORD_LOGIN, mPhone,password, 1, AppConfig.User.Account_Password_login);
                 } else {
                     showToast("密码不能为空");
                 }
