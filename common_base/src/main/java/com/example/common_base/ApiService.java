@@ -33,6 +33,8 @@ public interface ApiService {
     String BROWSING_HISTORY = "/appUser/getBrowsingHistory";
     String GET_V_CODE = "/appUser/getVCode";
     String HOME_TAB = "/index/positionTab";
+    String APP_LIST = "/position/appList";
+    String BANNER_LIST = "/ad/getBannerList";
 
 
     @POST(UPLOAD_IMAGE)
@@ -60,7 +62,7 @@ public interface ApiService {
 
     @POST(USER_LOGIN)
     @FormUrlEncoded
-    Observable<ResponseBody> getLoginSetPassword(@Field("mobile") String mobile,@Field("password") String password, @Field("createChannel") int channel, @Field("type") int type, @Field("vCode") String vCode);
+    Observable<ResponseBody> getLoginSetPassword(@Field("mobile") String mobile, @Field("password") String password, @Field("createChannel") int channel, @Field("type") int type, @Field("vCode") String vCode);
 
     @GET(HOME_TAB)
     Observable<ResponseBody> getHomeTab();
@@ -68,4 +70,12 @@ public interface ApiService {
     @POST(BROWSING_HISTORY)
     @FormUrlEncoded
     Observable<ResponseBody> getBrowsingHistory(@Field("positionIds") ArrayList<Integer> positionIds, @Field("type") String type, @Field("pageNo") String pageNo, @Field("pageSize") String pageSize);
+
+
+    @GET(APP_LIST)
+    Observable<ResponseBody> getAppList(@Query("pageNo") int pageNo, @Query("pageSize") int pageSize,@Query("place") int place);
+
+    @GET(BANNER_LIST)
+    Observable<ResponseBody> getBannerList();
+
 }

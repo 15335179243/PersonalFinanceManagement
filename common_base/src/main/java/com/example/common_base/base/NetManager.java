@@ -53,7 +53,7 @@ public class NetManager {
     }
 
 
-    public <T> void method(Observable<T> leftMenuInfo, final ICommonView view, final int whichApi, final Object... t){
+    public <T> void method(Observable<T> leftMenuInfo,  ICommonView view,  int whichApi,  Object... t){
         leftMenuInfo.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver() {

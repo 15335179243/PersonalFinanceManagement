@@ -11,8 +11,8 @@ public class ApiConfig {
     public static final int GET_V_CODE = 7;
     public static final int GET_HOME_TAB= 8;
 
-
-
+    public static final int APP_LIST = 9;
+    public static final int GET_BANNER_LIST = 10;
 
 
     public static final int GAME_GUANZHU_LIST_DATA =5 ;
@@ -30,4 +30,6 @@ public class ApiConfig {
     public static final int DATA_COURSE = 17;
 
     public static final int UPDATE  = 19;
+
+
 }

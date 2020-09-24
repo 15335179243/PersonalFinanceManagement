@@ -27,11 +27,10 @@ import static com.chumu.jianzhimao.ui.mvp.bean.HomeChildInfo.PAGE_TYPE_LIST;
 public class HomeChildAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
     private int PageType;
 
-    public HomeChildAdapter(int pageType) {
-        PageType = pageType;
-        if (PageType == PAGE_TYPE_BANNER) {
-            addItemType(PAGE_TYPE_BANNER, R.layout.home_child_banner_itme);
-        }
+    public HomeChildAdapter() {
+
+        addItemType(PAGE_TYPE_BANNER, R.layout.home_child_banner_itme);
+
         addItemType(PAGE_TYPE_LIST, R.layout.home_child_list_itme);
     }
 

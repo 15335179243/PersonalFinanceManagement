@@ -88,7 +88,7 @@ public abstract class BaseFramgent extends Fragment implements NetStatusBroadCas
     }
 
     protected int getLoadType( Object... t){
-        return  (int) ((Object[]) t[1])[1];
+        return  (int) ((Object[]) t[1])[0];
     }
 
     public void refresh() {

@@ -2,6 +2,7 @@ package com.chumu.jianzhimao.ui.fragment;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.chumu.jianzhimao.ui.adapter.VpHomeAdapter;
 import com.chumu.jianzhimao.ui.mvp.HomeModle;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeTab;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanLogin;
+import com.example.common_base.AppConfig;
 import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpFragment;
 import com.example.common_base.utils.ToastUtil;
@@ -44,6 +46,8 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
     ViewPager2 mVpPage;
     private VpHomeAdapter mVpHomeAdapter;
     private List<BeanHomeTab.DataBean> mData;
+    private ArrayList<Fragment> mMFragments;
+    private TabLayoutMediator mTabLayoutMediator;
 
 
     @Override
@@ -53,12 +57,13 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
 
     @Override
     public void initView() {
-        ArrayList<Fragment> mFragments = new ArrayList<>();
-        mFragments.add(new HomeChildFragment());
-        mFragments.add(new HomeChildFragment());
-        mFragments.add(new HomeChildFragment());
+        mMFragments = new ArrayList<>();
 
-        mVpHomeAdapter = new VpHomeAdapter(getActivity(), mFragments);
+
+    }
+
+    private void initTab() {
+        mVpHomeAdapter = new VpHomeAdapter(getActivity(), mMFragments);
         mVpPage.setAdapter(mVpHomeAdapter);
         mVpPage.setCurrentItem(0);
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -94,28 +99,22 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
             }
         });
 
-        new TabLayoutMediator(mTabLayout, mVpPage, new TabLayoutMediator.OnConfigureTabCallback() {
+       new TabLayoutMediator(mTabLayout, mVpPage, new TabLayoutMediator.OnConfigureTabCallback() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if (mData!=null) {
+                if (mData != null) {
                     tab.setText(mData.get(position).getIndexName());
                 }
 
             }
         }).attach();
-
-
     }
 
-    @Override
-    public void initmvp() {
-        super.initmvp();
-        mPresenter.getData(GET_HOME_TAB);
-    }
 
     @Override
     public void initData() {
         show();
+        mPresenter.getData(GET_HOME_TAB);
 //        HashMap<String, String> map = new HashMap<>();
 //        map.put("menuId", String.valueOf(MainAplication.menuid));
 //        mPresenter.getData(ApiConfig.GET_DATA_HOME_MENUS, MainAplication.menuid, Encryption.formatUrlParam(map));
@@ -140,50 +139,24 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
                 break;
             case GET_HOME_TAB:
                 BeanHomeTab beanHomeTab = new Gson().fromJson(str, BeanHomeTab.class);
-                ToastUtil.toastShortMessage(beanHomeTab.getDesc());
                 if (beanHomeTab.getCode() == 200) {
                     mData = beanHomeTab.getData();
-                    mVpHomeAdapter.notifyDataSetChanged();
+                    for (BeanHomeTab.DataBean datum : mData) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(AppConfig.DataTag.PLACE, datum.getIndexType());
+                        HomeChildFragment homeChildFragment = new HomeChildFragment();
+                        homeChildFragment.setArguments(bundle);
+                        mMFragments.add(homeChildFragment);
+
+                    }
+                    initTab();
+
+                }else {
+                    ToastUtil.toastShortMessage(beanHomeTab.getDesc());
                 }
                 break;
         }
     }
 
-//    @Override
-//    public void onResponse(int whichApi, Object[] t) {
-//        hide();
-//        switch (whichApi) {
-//            default:
-//                break;
-//            case ApiConfig.GET_DATA_HOME_MENUS:
-//
-//                BeanHomeList beanHomeList = (BeanHomeList) t[0];
-//                if (beanHomeList.getCode() == 10000) {
-//                    if (beanHomeList.getRes().getMenus() != null && beanHomeList.getRes().getMenus().size() > 0) {
-//
-//                        List<BeanHomeList.ResBean.MenusBean> menus = beanHomeList.getRes().getMenus();
-//                        ArrayList<Fragment> fragments = new ArrayList<>();
-//                        for (int i = 0; i < menus.size(); i++) {
-//                            HomeChildFragment homeChildFragment = new HomeChildFragment();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt("menuId", menus.get(i).getId());
-//                            homeChildFragment.setArguments(bundle);
-//                            fragments.add(homeChildFragment);
-//                        }
-//                        mVpHoemAdapter.addframgent(fragments);
-//                        mVpHoemAdapter.setlist(beanHomeList.getRes().getMenus());
-//                        mVpHoemAdapter.notifyDataSetChanged();
-//
-//
-//                    }
-//                } else {
-//                    showToast(beanHomeList.getRes().getMessage());
-//                }
-//
-//
-//                break;
-//
-//        }
-//
-//    }
+
 }

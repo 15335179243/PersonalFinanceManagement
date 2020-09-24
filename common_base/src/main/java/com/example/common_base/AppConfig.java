@@ -20,4 +20,9 @@ public interface  AppConfig {
       int Verification_Code_login=2;
       int register=3;
     }
+
+    interface DataTag{
+        String  PLACE="place";
+
+    }
 }

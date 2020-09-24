@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @changed by:
  */
 public class VpHomeAdapter extends FragmentStateAdapter {
-    private ArrayList<Fragment> mFragments = new ArrayList<>();
+    private ArrayList<Fragment> mFragments;
 
     public VpHomeAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Fragment> fragments) {
         super(fragmentActivity);

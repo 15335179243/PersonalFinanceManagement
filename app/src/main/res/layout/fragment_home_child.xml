@@ -5,15 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/sm_refres"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:tooltipText=":"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:srlAccentColor="@color/colorPrimary"
         app:srlEnablePreviewInEditMode="true"
-        app:srlPrimaryColor="@android:color/darker_gray">
+        app:srlPrimaryColor="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tooltipText=":">
 
         <com.scwang.smartrefresh.header.MaterialHeader
             android:layout_width="match_parent"
