@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
@@ -23,19 +24,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.EditNicknameActivity;
 import com.chumu.jianzhimao.ui.adapter.MyListAdapter;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
+import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeList;
+import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeTab;
+import com.chumu.jianzhimao.ui.mvp.bean.BeanUpload;
 import com.chumu.jianzhimao.ui.mvp.bean.MyLisInfo;
 import com.example.common_base.ApiConfig;
 import com.example.common_base.ApiService;
+import com.example.common_base.AppConfig;
 import com.example.common_base.ConstantConfig;
+import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpFragment;
 import com.example.common_base.design.RoundImage;
 import com.example.common_base.utils.GlideEngine;
+import com.example.common_base.utils.ToastUtil;
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.CompressionPredicate;
 import com.luck.picture.lib.compress.Luban;
@@ -43,6 +52,8 @@ import com.luck.picture.lib.compress.OnCompressListener;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,6 +96,15 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
 
     @Override
     public void initView() {
+        String headPicture = (String) mChuMuSharedPreferences.getValue(SPConstant.Login.HEAD_PICTURE, "");
+        String nickName = (String) mChuMuSharedPreferences.getValue(SPConstant.Login.NICKNAME, "");
+        mNicknameTv.setText(nickName);
+        Glide.with(this).load(headPicture)
+                .error(R.drawable.common_base_no_login_head)
+                .placeholder(R.drawable.common_base_no_login_head)
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(mHeadPortraitIv);
         mListRlv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new MyListAdapter();
         mListRlv.setAdapter(mAdapter);
@@ -114,12 +134,24 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
     @Override
     public void onResponse(int whichApi, Object[] t) {
         hide();
+        String str = (String) t[0];
         switch (whichApi) {
             default:
                 break;
             case ApiConfig.UPLOADING:
+              if (str!=null){
+                  BeanUpload beanUpload = new Gson().fromJson(str, BeanUpload.class);
+                  if (beanUpload.getCode() == 200) {
 
-                Log.e("chumu", "onResponse: " + t);
+                      if (beanUpload.getData()!=null) {
+                          mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, beanUpload.getData().getUrl());
+                          ToastUtil.toastShortMessage("修改头像成功");
+                      }
+
+                  }else {
+                      ToastUtil.toastShortMessage(beanUpload.getDesc());
+                  }
+              }
                 break;
 
 

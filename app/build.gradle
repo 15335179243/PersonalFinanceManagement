@@ -60,7 +60,7 @@ android {
         release {
             keyAlias 'ChuMuYa'
             keyPassword '123456'
-            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+//            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
             storeFile file('D:/My Code/chumu.jks.old')
             storePassword '123456'
             v2SigningEnabled true
@@ -68,8 +68,8 @@ android {
         debug {
             keyAlias 'ChuMuYa'
             keyPassword '123456'
-            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
-//            storeFile file('D:/My Code/chumu.jks.old')
+//            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+            storeFile file('D:/My Code/chumu.jks.old')
             storePassword '123456'
             v2SigningEnabled true
         }

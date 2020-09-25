@@ -3,6 +3,7 @@ package com.chumu.jianzhimao.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.login.RegisterAndPhoneLoginActivity;
 import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseActivity;
+import com.example.common_base.base.BaseApplication;
 
 import butterknife.BindView;
 
@@ -61,7 +63,12 @@ public class SplashActivity extends BaseActivity {
             startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             mChuMuSharedPreferences.putValue(SPConstant.FIRST_IN, false);
         } else {
-            startActivity(new Intent(SplashActivity.this, RegisterAndPhoneLoginActivity.class));
+
+            if (TextUtils.isEmpty(BaseApplication.mToken)) {
+                startActivity(new Intent(SplashActivity.this, RegisterAndPhoneLoginActivity.class));
+            }else {
+                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            }
         }
         finish();
     }
@@ -83,7 +90,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mApplication.mToken = (String) new ChuMuSharedPreferences(this, SPConstant.PORTRAIT_NAME).getValue(SPConstant.Login.TOKEN, "");
+        BaseApplication.mToken = (String)mChuMuSharedPreferences.getValue(SPConstant.Login.TOKEN, "");
         initCountDown();
         setNoTitleBarAndFullScreen();
     }

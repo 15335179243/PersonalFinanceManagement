@@ -100,6 +100,7 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
     @Override
     public void initView() {
         mode1();
+
         mType = getIntent().getIntExtra("type", -1);
         if (mType == INIT_TYPE_FIND_PASSWORD) {
             mRetrievePasswordTv.setText("验证码登录");
@@ -135,13 +136,12 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
                 ToastUtil.toastShortMessage(beanLogin.getDesc());
                 if (beanLogin.getCode() == 200) {
                     if (beanLogin.getData() != null && beanLogin.getData().isRegister()) {
-                        mChuMuSharedPreferences.putObject(SPConstant.Login.HEAD_PICTURE, beanLogin.getData().getHeadPicture());
-                        mChuMuSharedPreferences.putObject(SPConstant.Login.MOBILE, beanLogin.getData().getMobile());
-                        mChuMuSharedPreferences.putObject(SPConstant.Login.NICKNAME, beanLogin.getData().getNickName());
-                        mChuMuSharedPreferences.putObject(SPConstant.Login.SIGNATURE, beanLogin.getData().getSignature());
-                        mChuMuSharedPreferences.putObject(SPConstant.Login.TOKEN, beanLogin.getData().getToken());
-                        mChuMuSharedPreferences.putObject(SPConstant.Login.TOKEN, beanLogin.getData().getToken());
-                        mChuMuSharedPreferences.putObject(SPConstant.Login.ID, beanLogin.getData().getId());
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, beanLogin.getData().getHeadPicture());
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.MOBILE, beanLogin.getData().getMobile());
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.NICKNAME, beanLogin.getData().getNickName());
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.SIGNATURE, beanLogin.getData().getSignature());
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.TOKEN, beanLogin.getData().getToken());
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.ID, beanLogin.getData().getId());
                         startActivity(new Intent(this, HomeActivity.class));
                         finish();
                     } else {

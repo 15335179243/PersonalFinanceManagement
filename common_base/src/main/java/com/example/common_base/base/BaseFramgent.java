@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chumu.dt.v24.magicbox.ChuMuSharedPreferences;
+import com.example.common_base.SPConstant;
 import com.example.common_base.boradcast.NetStatusBroadCast;
 import com.example.common_base.design.LoadingDialogWithContent;
 import com.example.common_base.utils.NormalConfig;
@@ -36,10 +38,12 @@ public abstract class BaseFramgent extends Fragment implements NetStatusBroadCas
     private Unbinder mBind;
     public NetStatusBroadCast mNetStatusBroadCast;
     private LoadingDialogWithContent mLoading;
+    public ChuMuSharedPreferences mChuMuSharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mChuMuSharedPreferences = new ChuMuSharedPreferences(getContext(), SPConstant.PORTRAIT_NAME);
         mLoading = new LoadingDialogWithContent(getContext(), "正在加载...");
         showLog("我就是一个类："+this.getClass().getSimpleName());
         mApplication = (BaseApplication) getActivity().getApplication();
