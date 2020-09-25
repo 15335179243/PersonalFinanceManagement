@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.mob.sdk'
+
 
 android {
     compileSdkVersion compileSdk
@@ -48,13 +48,6 @@ android {
     }
 
 
-    MobSDK {
-        appKey "30d635f948ed5"
-        appSecret "28bb63d5b895bef56283defe174340b8"
-        SMSSDK {}
-        gui false
-        autoSMS true
-    }
 
     signingConfigs {
         release {

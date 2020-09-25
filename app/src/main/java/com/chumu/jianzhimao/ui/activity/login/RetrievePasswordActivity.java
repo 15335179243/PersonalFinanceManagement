@@ -2,7 +2,6 @@ package com.chumu.jianzhimao.ui.activity.login;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,18 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chumu.dt.v24.magicbox.klog.ChuMuKLog;
-import com.chumu.dt.v24.magicbox.klog.ChuMuKLogUtil;
 import com.chumu.jianzhimao.R;
-import com.chumu.jianzhimao.ui.activity.HomeActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
-import com.chumu.jianzhimao.ui.mvp.bean.BeanLogin;
 import com.example.common_base.ApiConfig;
 import com.example.common_base.AppConfig;
-import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpActivity;
-import com.example.common_base.utils.ToastUtil;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,10 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
 import okhttp3.ResponseBody;
 
 import static com.example.common_base.ApiConfig.GET_V_CODE;

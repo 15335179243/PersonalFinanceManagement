@@ -2,34 +2,17 @@ package com.chumu.jianzhimao.ui.activity.login;
 
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Message;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-
-import com.chumu.dt.v24.magicbox.klog.ChuMuKLog;
-import com.chumu.dt.v24.magicbox.klog.ChuMuKLogUtil;
-import com.chumu.dt.v24.magicbox.klog.base.ChuMuBaseLog;
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.HomeActivity;
-import com.chumu.jianzhimao.ui.activity.OnSendMessageHandler;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanLogin;
 import com.example.common_base.ApiConfig;
@@ -40,23 +23,15 @@ import com.example.common_base.utils.SpannableStringAttach;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.jzp.rotate3d.Rotate3D;
-import com.mob.MobSDK;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
-import cn.smssdk.gui.RegisterPage;
-import okhttp3.ResponseBody;
 
 import static com.example.common_base.ApiConfig.GET_V_CODE;
 import static com.example.common_base.ApiConfig.USER_LOGIN;
