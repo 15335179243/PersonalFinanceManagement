@@ -22,5 +22,6 @@
     <string name="Authentication_free_login">密码登录</string>
     <string name="newuser">新用户首次登录即可奖励</string>
     <string name="agreement">点击登录注册,即表示您已同意 </string>
+    <string name="loaderre">暂无网络连接，请连接网络刷新再试</string>
 
 </resources>

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.HomeActivity;
+import com.chumu.jianzhimao.ui.activity.webview.AgreementActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanLogin;
 import com.example.common_base.ApiConfig;
@@ -23,6 +24,7 @@ import com.example.common_base.utils.SpannableStringAttach;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.jzp.rotate3d.Rotate3D;
+import com.tanrice.unmengapptrack.UMengInit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,7 +122,7 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
                         startActivity(new Intent(this, HomeActivity.class));
                         finish();
                     } else {
-                        startActivity(new Intent(this, SetPasswordActivity.class).putExtra(SPConstant.Login.MOBILE, mPhone).putExtra(SPConstant.Login.V_CODE,mSmsCode));
+                        startActivity(new Intent(this, SetPasswordActivity.class).putExtra(SPConstant.Login.MOBILE, mPhone).putExtra(SPConstant.Login.V_CODE, mSmsCode));
                         finish();
                     }
 
@@ -217,7 +219,7 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
             boolean isMatch = m.matches();
             if (isMatch) {
                 if (!TextUtils.isEmpty(mSmsCode)) {
-                    mPresenter.getData(USER_LOGIN, mPhone, 1, AppConfig.User.Verification_Code_login, mSmsCode);
+                    mPresenter.getData(USER_LOGIN, mPhone, UMengInit.getIntChannel(), AppConfig.User.Verification_Code_login, mSmsCode);
                 } else {
                     showToast("验证码不能为空");
                 }
@@ -259,21 +261,21 @@ public class RegisterAndPhoneLoginActivity extends BaseMvpActivity<UserModle> im
                 .addClickableSpan(userProtocol, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        agreementOnCilck();
+                        agreementOnCilck(AppConfig.WebView.USER_AGREEMENT);
                     }
                 }).addClickableSpan(privacy, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agreementOnCilck();
+                agreementOnCilck(AppConfig.WebView.PRIVACY_AGREEMENT);
             }
         }).attach(mTvAgreement);
     }
 
-    private void agreementOnCilck() {
+    private void agreementOnCilck(int type) {
 
-//        Intent intent = new Intent(PhoneLoginActivity.this, AgreementActivity.class);
-//
-//        startActivity(intent);
-//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        Intent intent = new Intent(this, AgreementActivity.class);
+        intent.putExtra("type", type);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

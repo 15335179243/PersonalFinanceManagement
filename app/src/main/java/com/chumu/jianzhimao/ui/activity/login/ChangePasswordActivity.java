@@ -18,6 +18,7 @@ import com.example.common_base.base.BaseMvpActivity;
 import com.example.common_base.base.NotSignException;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
+import com.tanrice.unmengapptrack.UMengInit;
 
 import java.io.IOException;
 
@@ -25,6 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
 
+import static com.example.common_base.ApiConfig.UPDATE_PASSWORD;
 import static com.example.common_base.ApiConfig.USER_LOGIN;
 
 @ChuMuSwipeBack(true)
@@ -69,24 +71,21 @@ public class ChangePasswordActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void onResponse(int whichApi, Object[] t) {
-
+        hide();
+        String str = (String) t[0];
         switch (whichApi) {
             default:
                 break;
+            case UPDATE_PASSWORD:
+                    BeanLogin beanLogin = new Gson().fromJson(str, BeanLogin.class);
 
-            case USER_LOGIN:
-                ResponseBody str = (ResponseBody) t[0];
-                try {
-                    BeanLogin beanLogin = new Gson().fromJson(str.string(), BeanLogin.class);
-                        ToastUtil.toastShortMessage(beanLogin.getDesc());
                     if (beanLogin.getCode() == 200) {
 
-                     throw  new NotSignException("跳转登录");
+                     throw  new NotSignException("设置密码成功请重新登录");
 
+                    }else {
+                        ToastUtil.toastShortMessage(beanLogin.getDesc());
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
                 break;
 
@@ -106,7 +105,7 @@ public class ChangePasswordActivity extends BaseMvpActivity<UserModle> {
                     return;
                 }
                 if (mEdNewPassword.getText().toString().trim().equals(mEdRetype.getText().toString().trim())) {
-                    mPresenter.getData(ApiConfig.USER_Set_PASSWORD_LOGIN, mMobile, mEdOldPassword.getText().toString(), mEdNewPassword.getText().toString().trim(), "chumuya", AppConfig.User.register);
+                    mPresenter.getData(UPDATE_PASSWORD, mMobile, mEdOldPassword.getText().toString(), mEdNewPassword.getText().toString().trim());
                 } else {
                     ToastUtil.toastShortMessage("两次输入不一致");
 

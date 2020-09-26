@@ -13,6 +13,7 @@ import com.chumu.jianzhimao.ui.activity.login.ChangePasswordActivity;
 import com.chumu.jianzhimao.ui.activity.login.SetPasswordActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.example.common_base.base.BaseMvpActivity;
+import com.example.common_base.base.NotSignException;
 import com.example.common_base.local_utils.SharedPrefrenceUtils;
 import com.example.common_base.utils.GlideCacheUtil;
 
@@ -48,8 +49,7 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
         getTitleView().setTitle("设置");
         mCacheUtil = GlideCacheUtil.getInstance();
         mCacheSize = mCacheUtil.getCacheSize(this);
-        mAppClearSize = ChuMuAppCleanManager.getAppClearSize(this);
-        mTvCache.setText(mAppClearSize);
+        mTvCache.setText(mCacheSize);
 
     }
 
@@ -120,8 +120,8 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
                 showToast("清除缓存");
 
                 mCacheUtil.clearImageAllCache(SettingActivity.this);
-                ChuMuAppCleanManager.cleanApplicationData(this);
-                mTvCache.setText(mAppClearSize);
+
+                mTvCache.setText(mCacheUtil.getCacheSize(this));
                 break;
             case R.id.ll_follow_wechat:
 //                if (mTeacherWechat != null && mTeacherImg != null) {
@@ -133,10 +133,8 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
 
                 break;
             case R.id.ll_log_out:
-//                SharedPrefrenceUtils.saveString(this, SpConfig.ACCESSTOKEN, null);
-//                showToast("退出成功");
+               throw  new NotSignException("退出登录成功");
 
-                break;
         }
     }
 //

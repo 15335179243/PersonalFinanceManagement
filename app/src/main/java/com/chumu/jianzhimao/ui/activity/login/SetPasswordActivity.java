@@ -15,6 +15,7 @@ import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpActivity;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
+import com.tanrice.unmengapptrack.UMengInit;
 
 import java.io.IOException;
 
@@ -108,7 +109,7 @@ public class SetPasswordActivity extends BaseMvpActivity<UserModle> {
                     return;
                 }
                 if (mEdNewPassword.getText().toString().trim().equals(mEdRetype.getText().toString().trim())) {
-                    mPresenter.getData(USER_Set_PASSWORD_LOGIN,mMobile, mEdNewPassword.getText().toString().trim(), 1, AppConfig.User.register,v_Code);
+                    mPresenter.getData(USER_Set_PASSWORD_LOGIN,mMobile, mEdNewPassword.getText().toString().trim(), UMengInit.getIntChannel(), AppConfig.User.register,v_Code);
                 } else {
                     ToastUtil.toastShortMessage("两次输入不一致");
 

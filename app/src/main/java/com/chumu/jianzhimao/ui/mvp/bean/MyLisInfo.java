@@ -8,6 +8,8 @@ import androidx.annotation.LayoutRes;
 
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.SettingActivity;
+import com.chumu.jianzhimao.ui.activity.webview.AgreementActivity;
+import com.example.common_base.AppConfig;
 import com.example.common_base.ChuMuData;
 
 import java.util.ArrayList;
@@ -43,11 +45,12 @@ public class MyLisInfo extends ChuMuData {
     public static ArrayList<MyLisInfo> getMyListInfoData() {
         ArrayList<MyLisInfo> mList = new ArrayList<>();
         mList.add(new MyLisInfo(ML_LIST_BROWSE, "我的浏览", R.drawable.ic_user));
+        mList.add(new MyLisInfo(ML_LIST_ABOUT_US, "待起名标签", R.drawable.ic_user));
         mList.add(new MyLisInfo(ML_LIST_FEEDBACK, "意见反馈", R.drawable.ic_user));
         mList.add(new MyLisInfo(ML_LIST_USER_AGREEMENT, "用户协议", R.drawable.ic_user));
         mList.add(new MyLisInfo(ML_LIST_PRIVACY_AGREEMENT, "隐私协议", R.drawable.ic_user));
         mList.add(new MyLisInfo(ML_LIST_SETTING, "设置", R.drawable.ic_user));
-        mList.add(new MyLisInfo(ML_LIST_ABOUT_US, "关于我们", R.drawable.ic_user));
+
 
         return mList;
     }
@@ -62,8 +65,10 @@ public class MyLisInfo extends ChuMuData {
             case ML_LIST_FEEDBACK:
                 break;
             case ML_LIST_USER_AGREEMENT:
+                agreementOnCilck(activity, AppConfig.WebView.USER_AGREEMENT);
                 break;
             case ML_LIST_PRIVACY_AGREEMENT:
+                agreementOnCilck(activity, AppConfig.WebView.PRIVACY_AGREEMENT);
                 break;
             case ML_LIST_SETTING:
                 startPage(activity, SettingActivity.class);
@@ -113,5 +118,12 @@ public class MyLisInfo extends ChuMuData {
                 ", itemName='" + itemName + '\'' +
                 ", resPic=" + resPic +
                 '}';
+    }
+    private static void agreementOnCilck(Activity activity, int type) {
+
+        Intent intent = new Intent(activity, AgreementActivity.class);
+        intent.putExtra("type", type);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

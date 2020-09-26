@@ -5,14 +5,10 @@ import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
-import com.chumu.dt.v24.magicbox.ChuMuSharedPreferences;
 import com.chumu.dt.v24.magicbox.appbox.ChuMuAppUtils;
-
-import com.example.common_base.AppConfig;
-import com.example.common_base.SPConstant;
-import com.example.x5webview.APPAplication;
 import com.example.common_base.BuildConfig;
 import com.example.common_base.local_utils.DeviceUuidFactory;
+import com.example.x5webview.APPAplication;
 
 import java.util.UUID;
 

@@ -4,7 +4,8 @@ package com.chumu.jianzhimao.ui.adapter;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.chad.library.adapter.base.BaseViewHolder;
+
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.mvp.bean.City;
 import com.example.common_base.utils.ToastUtil;

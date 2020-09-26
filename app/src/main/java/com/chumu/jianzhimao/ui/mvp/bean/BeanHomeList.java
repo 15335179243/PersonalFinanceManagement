@@ -129,7 +129,25 @@ public class BeanHomeList {
             private String serviceName;
             private String picture;
             private String positionDetailsLink;
+            private String headPhoto;
             private List<String> labelList;
+            private boolean haveCollect=false;
+
+            public boolean isHaveCollect() {
+                return haveCollect;
+            }
+
+            public void setHaveCollect(boolean haveCollect) {
+                this.haveCollect = haveCollect;
+            }
+
+            public String getHeadPhoto() {
+                return headPhoto;
+            }
+
+            public void setHeadPhoto(String headPhoto) {
+                this.headPhoto = headPhoto;
+            }
 
             public int getId() {
                 return id;
@@ -225,6 +243,26 @@ public class BeanHomeList {
 
             public void setLabelList(List<String> labelList) {
                 this.labelList = labelList;
+            }
+
+            @Override
+            public String toString() {
+                return "RowsBean{" +
+                        "id=" + id +
+                        ", name='" + name + '\'' +
+                        ", createDate='" + createDate + '\'' +
+                        ", contact='" + contact + '\'' +
+                        ", digest='" + digest + '\'' +
+                        ", applyNum=" + applyNum +
+                        ", shareNum=" + shareNum +
+                        ", collectNum=" + collectNum +
+                        ", serviceName='" + serviceName + '\'' +
+                        ", picture='" + picture + '\'' +
+                        ", positionDetailsLink='" + positionDetailsLink + '\'' +
+                        ", headPhoto='" + headPhoto + '\'' +
+                        ", labelList=" + labelList +
+                        ", haveCollect=" + haveCollect +
+                        '}';
             }
         }
     }

@@ -1,27 +1,56 @@
 
-package com.example.x5webview.utils;
+package com.chumu.jianzhimao.ui.activity.webview;
 
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 
-import com.example.x5webview.APPAplication;
+import com.example.common_base.base.BaseApplication;
+
 
 
 /**
- *
  * webview里js回调本地方法的接口,尽量全部覆盖方法,避免h5回调没有实现的方法时抛异常导致后续逻辑如显示图片无法继续
  */
 
 public interface WebViewJsInterface {
+
+    @JavascriptInterface
+    void startWeiXin();
+
+    @JavascriptInterface
+    void startAndroidNumber(int type,String number);
+
+    @JavascriptInterface
+    void getDownload(String appID);
+
+    @JavascriptInterface
+    void isStartCall(boolean tag);
+
+    @JavascriptInterface
+    boolean onGoTodownload(String downloadUrl, String appId);
+
     @JavascriptInterface
     String getAuthorization();
 
     @JavascriptInterface
-    void setGalleries(String response);
+    String getAppVersion();
 
     @JavascriptInterface
-    void startWeiXin();
+    void getInvitationPictures(String pic);
+
+    @JavascriptInterface
+    void logout();
+
+    @JavascriptInterface
+    boolean isAppInstalled(String packageName);
+
+
+    @JavascriptInterface
+    void onstartAPP(String packageName);
+
+    @JavascriptInterface
+    void setGalleries(String response);
 
     @JavascriptInterface
     void gallery(String response);
@@ -94,23 +123,81 @@ public interface WebViewJsInterface {
 
     class BaseWebViewJsInterface implements WebViewJsInterface {
 
-        @Override
-        @JavascriptInterface
-        public String getAuthorization() {
-            Log.e("chumu", "getAuthorization: " );
-            return "";
-        }
-
-
-        @Override
-        @JavascriptInterface
-        public void setGalleries(String response) {
-
-        }
 
         @Override
         @JavascriptInterface
         public void startWeiXin() {
+
+
+        }
+
+        @Override
+        public void startAndroidNumber(int type, String number) {
+
+        }
+
+        @Override
+        @JavascriptInterface
+        public void getDownload(String appID) {
+
+        }
+
+        @Override
+        @JavascriptInterface
+        public void isStartCall(boolean tag) {
+
+        }
+
+        @Override
+        @JavascriptInterface
+        public boolean onGoTodownload(String downloadUrl, String appId) {
+            return false;
+
+        }
+
+        @Override
+        @JavascriptInterface
+        public String getAuthorization() {
+            Log.e("chumu", "getAuthorization: " + BaseApplication.mToken);
+            //            return new String[]{APPAplication.token, MainAplication.newX + ""};
+            return BaseApplication.mToken;
+        }
+
+
+        @Override
+        @JavascriptInterface
+        public String getAppVersion() {
+            return null;
+        }
+
+
+        @Override
+        @JavascriptInterface
+        public void getInvitationPictures(String pic) {
+
+        }
+
+        @Override
+        @JavascriptInterface
+        public void logout() {
+
+        }
+
+        @Override
+        @JavascriptInterface
+        public boolean isAppInstalled(String packageName) {
+            return false;
+        }
+
+        @Override
+        @JavascriptInterface
+        public void onstartAPP(String packageName) {
+
+        }
+
+        @Override
+        @JavascriptInterface
+        public void setGalleries(String response) {
 
         }
 

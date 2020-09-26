@@ -6,7 +6,7 @@ android {
     buildToolsVersion buildTools
 //        applicationId "adb uninstall com.chumu.jianzhimao"
     defaultConfig {
-        applicationId "com.chumu.jianzhimao"
+        applicationId "com.chumu.tiantianshouru"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
         versionCode appVersionCode
@@ -17,11 +17,6 @@ android {
             abiFilters "armeabi"
         }
 
-        manifestPlaceholders = [
-                JPUSH_PKGNAME: applicationId,
-                JPUSH_APPKEY : "7aa4442319c651ce43e81b8f", //Portal上注册的包名对应的 appKey.
-                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
-        ]
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
@@ -53,16 +48,16 @@ android {
         release {
             keyAlias 'ChuMuYa'
             keyPassword '123456'
-//            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
-            storeFile file('D:/My Code/chumu.jks.old')
+            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+//            storeFile file('D:/My Code/chumu.jks.old')
             storePassword '123456'
             v2SigningEnabled true
         }
         debug {
             keyAlias 'ChuMuYa'
             keyPassword '123456'
-//            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
-            storeFile file('D:/My Code/chumu.jks.old')
+            storeFile file('E:/work/workcode/qianmingwengjian/chumu.jks.old')
+//            storeFile file('D:/My Code/chumu.jks.old')
             storePassword '123456'
             v2SigningEnabled true
         }

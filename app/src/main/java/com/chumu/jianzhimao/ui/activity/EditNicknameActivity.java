@@ -2,23 +2,22 @@ package com.chumu.jianzhimao.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
-import com.example.common_base.ConstantConfig;
+import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpActivity;
 
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditNicknameActivity extends BaseMvpActivity<UserModle> {
@@ -29,7 +28,7 @@ public class EditNicknameActivity extends BaseMvpActivity<UserModle> {
     @BindView(R.id.btn_confirm)
     Button mBtnConfirm;
     @BindView(R.id.input_num_tv)
-    Button mInputNumTv;
+    TextView mInputNumTv;
     private String mNicknameText;
 
     @Override
@@ -39,7 +38,7 @@ public class EditNicknameActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void initView() {
-        mNicknameText = getIntent().getStringExtra(ConstantConfig.User.NICKNAME);
+        mNicknameText = getIntent().getStringExtra(SPConstant.Login.NICKNAME);
         mEditNickname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,8 +95,8 @@ public class EditNicknameActivity extends BaseMvpActivity<UserModle> {
 
     private void submit() {
         Intent intent = new Intent();
-        intent.putExtra(ConstantConfig.User.NICKNAME, mNicknameText);
-        setResult(Activity.RESULT_OK, intent);
+        intent.putExtra(SPConstant.Login.NICKNAME, mNicknameText);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

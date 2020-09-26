@@ -1,6 +1,11 @@
 package com.example.common_base.base;
 
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,16 +27,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.chumu.dt.v24.magicbox.ChuMuSharedPreferences;
 import com.chumu.dt.v24.magicbox.base.ChuMuBaseActivity;
+import com.example.common_base.AppConfig;
 import com.example.common_base.R;
 import com.example.common_base.RoutePath;
 import com.example.common_base.SPConstant;
 import com.example.common_base.boradcast.NetStatusBroadCast;
 import com.example.common_base.design.CommonTitle;
 import com.example.common_base.design.LoadingDialogWithContent;
+import com.example.common_base.utils.ActivityCollector;
 import com.example.common_base.utils.NormalConfig;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -53,9 +63,15 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
     private View mContentView;
     private CommonTitle mTitleView;
 
+
+
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ActivityCollector.addActivity(this);
         mBaseLayout = getLayout();
         if (mBaseLayout != null) {
             mChuMuSharedPreferences = new ChuMuSharedPreferences(this, SPConstant.PORTRAIT_NAME);
@@ -250,12 +266,15 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
         mLoading = null;
         mBind.unbind();
         LeakCanaryUtils.fixFocusedViewLeak(getApplication());
+        ActivityCollector.removeActivity(this);
     }
 
     @Override
     public void onSingEvent() {
         //未登录操作
+        mChuMuSharedPreferences.putValue(SPConstant.Login.TOKEN,"");
         ARouter.getInstance().build(RoutePath.Login.LOGIN_PWD).navigation();
+        ActivityCollector.finishAll();
 
     }
 

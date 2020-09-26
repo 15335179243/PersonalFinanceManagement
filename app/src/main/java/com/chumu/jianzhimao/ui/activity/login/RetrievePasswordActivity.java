@@ -11,10 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.webview.AgreementActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.example.common_base.ApiConfig;
 import com.example.common_base.AppConfig;
 import com.example.common_base.base.BaseMvpActivity;
+import com.example.common_base.utils.SpannableStringAttach;
+import com.tanrice.unmengapptrack.UMengInit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +52,8 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
     TextView mTvFreeLogin;
     @BindView(R.id.tv_getcode)
     TextView mTvGetcode;
+    @BindView(R.id.tv_agreement)
+    TextView mTvAgreement;
     @BindView(R.id.Verification_code_login_tv)
     TextView mVerificationCodeLoginTv;
     private CountDownTimer mCountDownTimer;
@@ -61,7 +66,7 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void initView() {
-
+        mode1();
     }
 
     @Override
@@ -134,13 +139,11 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
                 break;
             case R.id.bt_login:
                 GoToLogin();
-                finish();
                 break;
             case R.id.tv_free_login:
                 startActivity(new Intent(this, ForgetPasswordActivity.class));
                 break;
             case R.id.tv_getcode:
-
                 GoToGetSms();
                 break;
             case R.id.Verification_code_login_tv:
@@ -200,7 +203,7 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
             boolean isMatch = m.matches();
             if (isMatch) {
                 if (!TextUtils.isEmpty(smsCode)) {
-                    mPresenter.getData(USER_LOGIN, mPhone, "chumuya", AppConfig.User.Verification_Code_login,smsCode);
+                    mPresenter.getData(USER_LOGIN, mPhone, UMengInit.getIntChannel(), AppConfig.User.Verification_Code_login,smsCode);
                 } else {
                     showToast("验证码不能为空");
                 }
@@ -208,5 +211,31 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
                 showToast("正确输入手机号");
             }
         }
+    }
+
+    private void mode1() {
+        String userProtocol = "用户协议";
+        String privacy = "隐私政策";
+        String protocolTipText = "注册及表示您已经同意 用户协议 和 隐私政策";
+        int linkColor = getResources().getColor(R.color.app_theme_color);
+        SpannableStringAttach.create(protocolTipText)
+                .addClickableSpan(userProtocol, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        agreementOnCilck(AppConfig.WebView.USER_AGREEMENT);
+                    }
+                }).addClickableSpan(privacy, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                agreementOnCilck(AppConfig.WebView.PRIVACY_AGREEMENT);
+            }
+        }).attach(mTvAgreement);
+    }
+    private void agreementOnCilck(int type) {
+
+        Intent intent = new Intent(this, AgreementActivity.class);
+        intent.putExtra("type", type);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

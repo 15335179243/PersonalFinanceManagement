@@ -10,14 +10,17 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.HomeActivity;
+import com.chumu.jianzhimao.ui.activity.webview.AgreementActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanLogin;
 import com.example.common_base.AppConfig;
 import com.example.common_base.RoutePath;
 import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpActivity;
+import com.example.common_base.utils.SpannableStringAttach;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
+import com.tanrice.unmengapptrack.UMengInit;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,8 +47,6 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
     TextView mTvCountDown;
     @BindView(R.id.verification_login_tv)
     TextView mVerificationLoginTv;
-    @BindView(R.id.textView2)
-    TextView mTextView2;
     @BindView(R.id.tv_agreement)
     TextView mTvAgreement;
     @BindView(R.id.retrieve_password_tv)
@@ -59,7 +60,7 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void initView() {
-
+        mode1();
     }
 
     @Override
@@ -142,7 +143,7 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
             boolean isMatch = m.matches();
             if (isMatch) {
                 if (!TextUtils.isEmpty(password)) {
-                    mPresenter.getData(USER_PASSWORD_LOGIN, mPhone,password, 1, AppConfig.User.Account_Password_login);
+                    mPresenter.getData(USER_PASSWORD_LOGIN, mPhone,password, UMengInit.getIntChannel(), AppConfig.User.Account_Password_login);
                 } else {
                     showToast("密码不能为空");
                 }
@@ -150,5 +151,30 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
                 showToast("正确输入手机号");
             }
         }
+    }
+    private void mode1() {
+        String userProtocol = "用户协议";
+        String privacy = "隐私政策";
+        String protocolTipText = "注册及表示您已经同意 用户协议 和 隐私政策";
+        int linkColor = getResources().getColor(R.color.app_theme_color);
+        SpannableStringAttach.create(protocolTipText)
+                .addClickableSpan(userProtocol, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        agreementOnCilck(AppConfig.WebView.USER_AGREEMENT);
+                    }
+                }).addClickableSpan(privacy, false, SpannableStringAttach.MATCH_MODE_ALL, linkColor, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                agreementOnCilck(AppConfig.WebView.PRIVACY_AGREEMENT);
+            }
+        }).attach(mTvAgreement);
+    }
+    private void agreementOnCilck(int type) {
+
+        Intent intent = new Intent(this, AgreementActivity.class);
+        intent.putExtra("type", type);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

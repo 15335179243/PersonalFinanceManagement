@@ -18,7 +18,7 @@
         tools:ignore="ExtraText">
         <activity android:name=".ui.activity.EditNicknameActivity"></activity>
         <activity android:name=".ui.activity.login.Main2Activity"></activity>
-        <activity android:name=".ui.activity.login.ForgetPasswordActivity" />
+        <activity android:name=".ui.activity.login.ForgetPasswordActivity" android:label="密码登录" />
         <activity android:name=".ui.activity.MainMessageActivity" />
         <activity
             android:name=".ui.activity.HomeActivity"
@@ -47,6 +47,8 @@
             android:name=".ui.activity.login.SetPasswordActivity"
             android:label="设置密码" />
         <activity android:name=".ui.activity.login.RetrievePasswordActivity" />
+        <activity android:name=".ui.activity.webview.WebActivity"  android:label="详情页"/>
+        <activity android:name=".ui.activity.webview.AgreementActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -3,6 +3,7 @@ package com.example.common_base.base;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -67,6 +68,8 @@ public class GlobalCrashCapture implements Thread.UncaughtExceptionHandler {
                     } catch (Throwable e) {
                         /* 如果是自己定义的异常 */
                         if (e instanceof NotSignException) {
+                            Log.e("chumu", "onSingEvent: "+ "登录");
+
                             /* 那就自己去处理吧 */
                             handleNotSignException(e);
                         } else {

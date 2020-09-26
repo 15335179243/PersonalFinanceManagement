@@ -99,7 +99,7 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
             }
         });
 
-       new TabLayoutMediator(mTabLayout, mVpPage, new TabLayoutMediator.OnConfigureTabCallback() {
+       new TabLayoutMediator(mTabLayout, mVpPage, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 if (mData != null) {

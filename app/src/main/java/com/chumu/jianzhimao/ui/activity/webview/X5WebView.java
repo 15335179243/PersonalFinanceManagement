@@ -1,4 +1,4 @@
-package com.example.x5webview.utils;
+package com.chumu.jianzhimao.ui.activity.webview;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebSettings.LayoutAlgorithm;
@@ -16,7 +15,6 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
 public class X5WebView extends WebView {
-	TextView title;
 	private WebViewClient client = new WebViewClient() {
 		/**
 		 * 防止加载网页时调起系统浏览器
@@ -26,9 +24,10 @@ public class X5WebView extends WebView {
 			return true;
 		}
 	};
+    private JSCallback mJsCallback;
 
 
-	public X5WebView(Context arg0, AttributeSet arg1) {
+    public X5WebView(Context arg0, AttributeSet arg1) {
 		super(arg0, arg1);
 		this.setWebViewClient(client);
 		// this.setWebChromeClient(chromeClient);
@@ -39,27 +38,39 @@ public class X5WebView extends WebView {
 
 	private void initWebViewSettings() {
 		WebSettings webSetting = this.getSettings();
-		webSetting.setJavaScriptEnabled(true);
-		webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
-		webSetting.setAllowFileAccess(true);
-		webSetting.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
-		webSetting.setSupportZoom(true);
-		webSetting.setBuiltInZoomControls(true);
-		webSetting.setUseWideViewPort(true);
-		webSetting.setSupportMultipleWindows(true);
-		// webSetting.setLoadWithOverviewMode(true);
-		webSetting.setAppCacheEnabled(true);
-		// webSetting.setDatabaseEnabled(true);
-		webSetting.setDomStorageEnabled(true);
-		webSetting.setGeolocationEnabled(true);
-		webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
-		// webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
-		webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
-		// webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
-		webSetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-		// this.getSettingsExtension().setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);//extension
-		// settings 的设计
+        this.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        this.setHorizontalScrollBarEnabled(false);//水平不显示
+        this.setVerticalScrollBarEnabled(false);
+        //垂直不显示
+        // 设置允许JS弹窗
+        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSetting.setAllowFileAccess(true);
+        webSetting.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
+        webSetting.setSupportZoom(false);
+        webSetting.setBuiltInZoomControls(false);
+        webSetting.setUseWideViewPort(true);
+        webSetting.setSupportMultipleWindows(false);
+        // webSetting.setLoadWithOverviewMode(true);
+        webSetting.setAppCacheEnabled(true);
+        // webSetting.setDatabaseEnabled(true);
+        webSetting.setDomStorageEnabled(true);
+        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
+        webSetting.setJavaScriptEnabled(true);
+        webSetting.setGeolocationEnabled(true);
+        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
+        webSetting.setAppCachePath(getContext().getDir("appcache", 0).getPath());
+        webSetting.setDatabasePath(getContext().getDir("databases", 0).getPath());
+        webSetting.setGeolocationDatabasePath(getContext().getDir("geolocation", 0)
+                .getPath());
+        //         webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);/
+        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
+        // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        // webSetting.setPreFectch(true);
+        //        mTenWebView.setWebViewClient(new MyWebViewClient());
+        mJsCallback = new JSCallback(this);
+        this.addJavascriptInterface(mJsCallback, "Android");
+
 	}
 
 	@Override

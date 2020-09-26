@@ -1,20 +1,29 @@
 package com.chumu.jianzhimao.ui.fragment;
 
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.webview.WebActivity;
 import com.chumu.jianzhimao.ui.adapter.HomeChildAdapter;
 import com.chumu.jianzhimao.ui.mvp.HomeModle;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanBannerList;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeList;
 import com.chumu.jianzhimao.ui.mvp.bean.HomeChildInfo;
+import com.example.common_base.ApiConfig;
 import com.example.common_base.AppConfig;
 import com.example.common_base.base.BaseMvpFragment;
 import com.example.common_base.utils.LoadStatusConfig;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
+import com.luck.picture.lib.tools.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
@@ -57,9 +66,35 @@ public class HomeChildFragment extends BaseMvpFragment<HomeModle> {
     public void initView() {
         mPlace = getArguments().getInt(AppConfig.DataTag.PLACE, -1);
         initRecycleView(mListRecyclerview, mSmRefres);
-        mHomeChildAdapter = new HomeChildAdapter();
+        mHomeChildAdapter = new HomeChildAdapter(this);
         mListRecyclerview.setAdapter(mHomeChildAdapter);
         mHomeChildInfo = new ArrayList<>();
+        mHomeChildAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                    switch (view.getId()) {
+                        default:
+                            break;
+                        case R.id.img_shoucang:
+                            ImageView favorite = view.findViewById(R.id.img_shoucang);
+                            favorite.setSelected(!mHomeChildInfo.get(position).getHomeData().isHaveCollect());
+                            mHomeChildInfo.get(position).getHomeData().setHaveCollect(!mHomeChildInfo.get(position).getHomeData().isHaveCollect());
+                            mPresenter.getData(ApiConfig.GET_STATISTICS_NUM,mHomeChildInfo.get(position).getHomeData().getId(),AppConfig.DataTag.favorite,mHomeChildInfo.get(position).getHomeData().isHaveCollect()? AppConfig.DataTag.inFavorite:AppConfig.DataTag.unFavorite);
+                            show();
+                            break;
+                        case R.id.img_fenxiang:
+                            ToastUtil.toastShortMessage("分享");
+                            break;
+                        case R.id.item_cl:
+                            getActivity().startActivity(new Intent(getActivity(), WebActivity.class).putExtra("webUrl",mHomeChildInfo.get(position).getHomeData().getPositionDetailsLink()));
+                            ToastUtil.toastShortMessage("详情");
+                            break;
+
+
+                    }
+                }
+
+        });
     }
 
     @Override
@@ -127,24 +162,26 @@ public class HomeChildFragment extends BaseMvpFragment<HomeModle> {
 
 
         }
-        if (mPlace == 1 && page == 0 &&mBeanHomeList!=null&& mBeanHomeList.getData() != null
-                && mBeanHomeList.getData().getRows() != null
-                && mBeanHomeList.getData().getRows().size() > 0
-                && mBeanBannerList.getData() != null
-                && mBeanBannerList.getData().size() > 0) {
-            mHomeChildInfo.add(new HomeChildInfo(PAGE_TYPE_BANNER, mBeanBannerList.getData()));
-            for (BeanHomeList.DataBean.RowsBean row : mBeanHomeList.getData().getRows()) {
-                mHomeChildInfo.add(new HomeChildInfo(PAGE_TYPE_LIST, row));
-            }
+        if (whichApi==GET_BANNER_LIST||whichApi==APP_LIST) {
+            if (mPlace == 1 && page == 0 && mBeanHomeList != null && mBeanHomeList.getData() != null
+                    && mBeanHomeList.getData().getRows() != null
+                    && mBeanHomeList.getData().getRows().size() > 0
+                    && mBeanBannerList.getData() != null
+                    && mBeanBannerList.getData().size() > 0) {
+                mHomeChildInfo.add(new HomeChildInfo(PAGE_TYPE_BANNER, mBeanBannerList.getData()));
+                for (BeanHomeList.DataBean.RowsBean row : mBeanHomeList.getData().getRows()) {
+                    mHomeChildInfo.add(new HomeChildInfo(PAGE_TYPE_LIST, row));
+                }
 
-        } else if (mBeanHomeList!=null&&mBeanHomeList.getData() != null
-                && mBeanHomeList.getData().getRows() != null) {
-            for (BeanHomeList.DataBean.RowsBean row : mBeanHomeList.getData().getRows()) {
-                mHomeChildInfo.add(new HomeChildInfo(PAGE_TYPE_LIST, row));
+            } else if (mBeanHomeList != null && mBeanHomeList.getData() != null
+                    && mBeanHomeList.getData().getRows() != null) {
+                for (BeanHomeList.DataBean.RowsBean row : mBeanHomeList.getData().getRows()) {
+                    mHomeChildInfo.add(new HomeChildInfo(PAGE_TYPE_LIST, row));
+                }
             }
+            mHomeChildAdapter.setNewData(mHomeChildInfo);
+            mHomeChildAdapter.notifyDataSetChanged();
         }
-        mHomeChildAdapter.setList(mHomeChildInfo);
-        mHomeChildAdapter.notifyDataSetChanged();
 
     }
 }

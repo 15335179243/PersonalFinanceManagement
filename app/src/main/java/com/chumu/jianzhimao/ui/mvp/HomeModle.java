@@ -27,14 +27,17 @@ public class HomeModle implements ICommonModel {
             default:
                 break;
             case ApiConfig.GET_HOME_TAB:
-                    mManager.method(mManager.getNetService().getHomeTab(), view, whichApi, t);
-                    break;
+                mManager.method(mManager.getNetService().getHomeTab(), view, whichApi, t);
+                break;
             case ApiConfig.APP_LIST:
-                mManager.method(mManager.getNetService().getAppList((int)t[0],(int) t[1],(int)t[2]), view, whichApi, (int)t[3]);
+                mManager.method(mManager.getNetService().getAppList((int) t[0], (int) t[1], (int) t[2]), view, whichApi, (int) t[3]);
 
                 break;
             case ApiConfig.GET_BANNER_LIST:
-                mManager.method(mManager.getNetService().getBannerList(), view, whichApi, (int)t[0]);
+                mManager.method(mManager.getNetService().getBannerList(), view, whichApi, (int) t[0]);
+                break;
+            case ApiConfig.GET_STATISTICS_NUM:
+                mManager.method(mManager.getNetService().getStatisticsNum((int) t[0], (int) t[1], (int) t[2]), view, whichApi, t[0]);
 
                 break;
         }

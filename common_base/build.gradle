@@ -22,6 +22,10 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false
+        }
     }
 
     buildTypes {
@@ -104,7 +108,7 @@ dependencies {
     annotationProcessor "com.alibaba:arouter-compiler:$arouterCompilerVersion"
     //内存泄漏检测
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
+//    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
 
     //    上拉刷新下拉加载
     api "com.scwang.smartrefresh:SmartRefreshLayout:$smartRefresh"
@@ -135,11 +139,12 @@ dependencies {
     api "com.elvishew:xlog:$xlogVersion"
     api 'com.alibaba:fastjson:1.1.71.android'
 
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
     api 'com.github.xiangtailiang:tablayout:1.0.0'
     api project(path: ':X5WebView')
 
     api "com.youth.banner:banner:$banner"
 
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9'
+    api project(path: ':unmengapptrack')
 }

@@ -3,14 +3,10 @@ package com.chumu.jianzhimao.ui.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -26,19 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.EditNicknameActivity;
 import com.chumu.jianzhimao.ui.adapter.MyListAdapter;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
-import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeList;
-import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeTab;
 import com.chumu.jianzhimao.ui.mvp.bean.BeanUpload;
 import com.chumu.jianzhimao.ui.mvp.bean.MyLisInfo;
 import com.example.common_base.ApiConfig;
-import com.example.common_base.ApiService;
-import com.example.common_base.AppConfig;
-import com.example.common_base.ConstantConfig;
 import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpFragment;
 import com.example.common_base.design.RoundImage;
@@ -52,16 +42,14 @@ import com.luck.picture.lib.compress.OnCompressListener;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.tanrice.unmengapptrack.UMengInit;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -71,6 +59,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.common_base.ApiConfig.GET_PERFECT_INFO;
 
 
 public class MyFragment extends BaseMvpFragment<UserModle> {
@@ -87,6 +76,7 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
     private MyListAdapter mAdapter;
     private List<LocalMedia> selectList;
     private String mPic;
+    private String mNickName;
     ;
 
     @Override
@@ -97,8 +87,8 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
     @Override
     public void initView() {
         String headPicture = (String) mChuMuSharedPreferences.getValue(SPConstant.Login.HEAD_PICTURE, "");
-        String nickName = (String) mChuMuSharedPreferences.getValue(SPConstant.Login.NICKNAME, "");
-        mNicknameTv.setText(nickName);
+        mNickName = (String) mChuMuSharedPreferences.getValue(SPConstant.Login.NICKNAME, "");
+        mNicknameTv.setText(mNickName);
         Glide.with(this).load(headPicture)
                 .error(R.drawable.common_base_no_login_head)
                 .placeholder(R.drawable.common_base_no_login_head)
@@ -108,17 +98,19 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
         mListRlv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new MyListAdapter();
         mListRlv.setAdapter(mAdapter);
-        mAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                MyLisInfo.onSwitchPage(getActivity(), position);
+                List<MyLisInfo> data = adapter.getData();
+
+                MyLisInfo.onSwitchPage(getActivity(),data.get(position).getItemId() );
             }
         });
     }
 
     @Override
     public void initData() {
-        mAdapter.setList(MyLisInfo.getMyListInfoData());
+        mAdapter.setNewData(MyLisInfo.getMyListInfoData());
     }
 
     @Override
@@ -139,19 +131,35 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
             default:
                 break;
             case ApiConfig.UPLOADING:
-              if (str!=null){
-                  BeanUpload beanUpload = new Gson().fromJson(str, BeanUpload.class);
-                  if (beanUpload.getCode() == 200) {
+                if (str != null) {
+                    BeanUpload beanUpload = new Gson().fromJson(str, BeanUpload.class);
+                    if (beanUpload.getCode() == 200) {
 
-                      if (beanUpload.getData()!=null) {
-                          mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, beanUpload.getData().getUrl());
-                          ToastUtil.toastShortMessage("修改头像成功");
-                      }
+                        if (beanUpload.getData() != null) {
+                            mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, beanUpload.getData().getUrl());
+                            ToastUtil.toastShortMessage("修改头像成功");
+                        }
 
-                  }else {
-                      ToastUtil.toastShortMessage(beanUpload.getDesc());
-                  }
-              }
+                    } else {
+                        ToastUtil.toastShortMessage(beanUpload.getDesc());
+                    }
+                }
+                break;
+            case ApiConfig.GET_PERFECT_INFO:
+                if (str != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(str);
+
+                        if (jsonObject.getInt("code") == 200) {
+                            mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, mNickName);
+
+                        } else {
+                            ToastUtil.toastShortMessage(jsonObject.getString("desc"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
 
 
@@ -170,7 +178,8 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
                 break;
             case R.id.nickname_tv:
             case R.id.compile_iv:
-                startActivity(new Intent(getContext(), EditNicknameActivity.class).putExtra(ConstantConfig.User.NICKNAME, "123456"));
+                startActivityForResult(new Intent(getContext(), EditNicknameActivity.class).putExtra(SPConstant.Login.NICKNAME, mNickName), 11);
+
                 break;
         }
     }
@@ -207,12 +216,14 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
                     // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
                     mPic = getPath(selectList.get(0));
                     Glide.with(this).load(mPic).into(mHeadPortraitIv);
-                    Log.e("chumu", "onActivityResult: "+selectList.get(0).getPath() );
+                    Log.e("chumu", "onActivityResult: " + selectList.get(0).getPath());
                     onPicZip(selectList);
-
-
-
-
+                    break;
+                case 11:
+                    mNickName = data.getStringExtra(SPConstant.Login.NICKNAME);
+                    mNicknameTv.setText(mNickName);
+                    mPresenter.getData(GET_PERFECT_INFO, mNickName, UMengInit.getIntChannel());
+                    show();
                     break;
             }
         }
@@ -245,7 +256,7 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("chumu", "onError: "+e.getMessage() );
+                        Log.e("chumu", "onError: " + e.getMessage());
                         // TODO 当压缩过程出现问题时调用
                     }
                 }).launch();
@@ -265,7 +276,7 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
     }
 
     private void uplodePic(File file) {
-        Log.e("chumu", "uplodePic: "+file.getPath() );
+        Log.e("chumu", "uplodePic: " + file.getPath());
         MediaType parse = MediaType.parse("multipart/form-data");
         RequestBody body = RequestBody.create(parse, file);//上传的文件
         MediaType formatType = MediaType.parse("*/*");
