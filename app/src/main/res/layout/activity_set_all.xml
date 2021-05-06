@@ -67,7 +67,7 @@
         android:background="@drawable/edinputbox"
         android:gravity="center"
         android:hint="输入阈值"
-        android:inputType="number"
+        android:inputType="numberSigned"
         android:textSize="@dimen/sp_15"
         app:layout_constraintBottom_toBottomOf="@+id/vi_noe"
         app:layout_constraintEnd_toEndOf="@+id/vi_noe"

@@ -44,6 +44,7 @@ public class SetAllActivity extends BaseMvpActivity<HomeModle> {
     View viNoe;
     private int mType;
     private String mYuzhi;
+    private int mID;
 
     @Override
     protected int onCreateContentView() {
@@ -55,6 +56,7 @@ public class SetAllActivity extends BaseMvpActivity<HomeModle> {
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         mType = intent.getIntExtra("type", 0);
+        mID = intent.getIntExtra("id", 0);
         getTitleView().setTitle(title);
         switch (mType) {
             default:
@@ -67,6 +69,7 @@ public class SetAllActivity extends BaseMvpActivity<HomeModle> {
 
                 break;
             case 2:
+            case 4:
                 edBeizhu.setVisibility(View.VISIBLE);
                 edText.setHint("记账,填正负值");
                 break;
@@ -109,7 +112,7 @@ public class SetAllActivity extends BaseMvpActivity<HomeModle> {
             case CREATEGROUP:
                 if (jsonObject.optInt("code") == 200) {
                     showToast("添加成功");
-                    ChuMuLiveDataBus.INSTANCE.send("quznhu",mYuzhi);
+                    ChuMuLiveDataBus.INSTANCE.send("quznhu", mYuzhi);
                     finish();
                 }
 
@@ -118,7 +121,7 @@ public class SetAllActivity extends BaseMvpActivity<HomeModle> {
             case ADDFINANCE:
                 if (jsonObject.optInt("code") == 200) {
                     showToast("修改成功");
-                    ChuMuLiveDataBus.INSTANCE.send("jiyibi",mYuzhi);
+                    ChuMuLiveDataBus.INSTANCE.send("jiyibi", mYuzhi);
                     finish();
                 }
 
@@ -126,7 +129,7 @@ public class SetAllActivity extends BaseMvpActivity<HomeModle> {
             case UPLOADING:
                 if (jsonObject.optInt("code") == 200) {
                     showToast("修改阈值成功");
-                    ChuMuLiveDataBus.INSTANCE.send("yuzhi",mYuzhi);
+                    ChuMuLiveDataBus.INSTANCE.send("yuzhi", mYuzhi);
                     finish();
                 }
 
@@ -206,6 +209,37 @@ public class SetAllActivity extends BaseMvpActivity<HomeModle> {
 
                         ToastUtil.showShort("请输入金额");
                     }
+                    break;
+                case 4:
+                    ToastUtil.showShort("修改成功");
+                    finish();
+//                    if (edText.getText() != null) {
+//                        String yuzhi = edText.getText().toString().trim();
+//                        if (edBeizhu.getText() != null) {
+//                            if (isInteger(yuzhi)) {
+//                                int i = Integer.parseInt(yuzhi);
+//                                if (i > 0) {
+//                                    jsonObject.put("status", 2);
+//                                } else {
+//                                    jsonObject.put("status", 1);
+//                                }
+//                                jsonObject.put("token", BaseApplication.mToken);
+//                                jsonObject.put("money", yuzhi);
+//                                jsonObject.put("desc", edBeizhu.getText().toString().trim());
+//
+//                                String o = (String) JSON.toJSON(jsonObject.toString());
+//                                Log.e("chumu", "GoToLogin: j" + o);
+//                                mPresenter.getData(ADDFINANCE, o);
+//                            } else {
+//                                ToastUtil.showShort("请正确输入金额");
+//                            }
+//                        } else {
+//                            ToastUtil.showShort("请输入备注");
+//                        }
+//                    } else {
+//
+//                        ToastUtil.showShort("请输入金额");
+//                    }
                     break;
 
 

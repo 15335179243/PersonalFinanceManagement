@@ -45,17 +45,24 @@ public class RlvV2exDetailsAdapter extends RecyclerView.Adapter {
         ViewHolder holder = (ViewHolder) viewHolder;
         BeanHomeList.DataBean.RowsBean dataBean = mList.get(i);
 
-        if (dataBean.getStatus()==1) {
+        if (dataBean.getStatus() == 1) {
             holder.tvJinge.setTextColor(Color.RED);
             holder.tvType.setText("支出:");
-        }else {
+        } else {
             holder.tvType.setText("收入:");
             holder.tvJinge.setTextColor(Color.BLACK);
         }
-        holder.tvJinge.setText(dataBean.getMoney()+"");
-        holder.beizhu.setText(dataBean.getDesc()+"");
+        holder.tvJinge.setText(dataBean.getMoney() + "");
+        holder.beizhu.setText(dataBean.getDesc() + "");
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnClickListener!=null) {
+                    mOnClickListener.onClick(holder.itemView,i,0);
+                }
+            }
+        });
 
     }
 
@@ -65,7 +72,7 @@ public class RlvV2exDetailsAdapter extends RecyclerView.Adapter {
     }
 
     public void addlist(final List<BeanHomeList.DataBean.RowsBean> datas) {
-        if (mList!=null) {
+        if (mList != null) {
             mList.clear();
         }
         mList.addAll(datas);
