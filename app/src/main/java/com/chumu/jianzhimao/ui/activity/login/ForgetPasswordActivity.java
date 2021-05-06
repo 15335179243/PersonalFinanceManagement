@@ -2,12 +2,15 @@ package com.chumu.jianzhimao.ui.activity.login;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.fastjson.JSON;
 import com.chumu.jianzhimao.R;
 import com.chumu.jianzhimao.ui.activity.HomeActivity;
 import com.chumu.jianzhimao.ui.activity.webview.AgreementActivity;
@@ -20,7 +23,9 @@ import com.example.common_base.base.BaseMvpActivity;
 import com.example.common_base.utils.SpannableStringAttach;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
-import com.tanrice.unmengapptrack.UMengInit;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,6 +65,8 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void initView() {
+
+        getTitleView().mBackBtn.setVisibility(View.GONE);
         mode1();
     }
 
@@ -87,24 +94,25 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
                 break;
 
             case USER_PASSWORD_LOGIN:
-
-
-                    BeanLogin beanLogin = new Gson().fromJson(str, BeanLogin.class);
-                    ToastUtil.toastShortMessage(beanLogin.getDesc());
-                    if (beanLogin.getCode() == 200) {
-                            mChuMuSharedPreferences.putObject(SPConstant.Login.HEAD_PICTURE, beanLogin.getData().getHeadPicture());
-                            mChuMuSharedPreferences.putObject(SPConstant.Login.MOBILE, beanLogin.getData().getMobile());
-                            mChuMuSharedPreferences.putObject(SPConstant.Login.NICKNAME, beanLogin.getData().getNickName());
-                            mChuMuSharedPreferences.putObject(SPConstant.Login.SIGNATURE, beanLogin.getData().getSignature());
-                            mChuMuSharedPreferences.putObject(SPConstant.Login.TOKEN, beanLogin.getData().getToken());
-                            mChuMuSharedPreferences.putObject(SPConstant.Login.TOKEN, beanLogin.getData().getToken());
-                            mChuMuSharedPreferences.putObject(SPConstant.Login.ID, beanLogin.getData().getId());
-                            startActivity(new Intent(this, HomeActivity.class));
-                            finish();
-
+                BeanLogin beanLogin = new Gson().fromJson(str, BeanLogin.class);
+                ToastUtil.toastShortMessage(beanLogin.getDesc());
+                if (beanLogin.getCode() == 200) {
+                    if (beanLogin.getData().getToken() != null) {
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.TOKEN, beanLogin.getData().getToken());
+                    }
+                    if (beanLogin.getData().getNickName() != null) {
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.NICKNAME, beanLogin.getData().getNickName());
+                    }
+                    if (beanLogin.getData().getHeadPhoto() != null) {
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, beanLogin.getData().getHeadPhoto());
                     }
 
+                    mChuMuSharedPreferences.putValue(SPConstant.Login.moneyLimit,beanLogin.getData().getMoneyLimit());
 
+                    startActivity(new Intent(this, HomeActivity.class));
+                    finish();
+
+                }
                 break;
 
         }
@@ -116,7 +124,7 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
             default:
                 break;
             case R.id.bt_login:
-                GoToLogin();
+                GoToLogin(mEdPhone.getText().toString().trim());
 
                 break;
             case R.id.verification_login_tv:
@@ -130,28 +138,38 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
         }
     }
 
-    private void GoToLogin() {
-        String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0-9])|(16[013678])|(19[0136789]))\\d{8}$";
-        mPhone = mEdPhone.getText().toString().trim();
-        String password = mEnterPasswordEd.getText().toString().trim();
-        if (mPhone.length() != 11) {
-            showToast("手机号长度为11位");
+    private void GoToLogin(String email) {
+        if (null == email || "".equals(email)) {
+            Toast.makeText(this, "邮箱不能为空", Toast.LENGTH_SHORT).show();
             return;
-        } else {
-            Pattern p = Pattern.compile(regex);
-            Matcher m = p.matcher(mPhone);
-            boolean isMatch = m.matches();
-            if (isMatch) {
-                if (!TextUtils.isEmpty(password)) {
-                    mPresenter.getData(USER_PASSWORD_LOGIN, mPhone,password, UMengInit.getIntChannel(), AppConfig.User.Account_Password_login);
-                } else {
-                    showToast("密码不能为空");
+        }
+        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        Pattern p = Pattern.compile(regEx1);
+        Matcher m = p.matcher(email);
+        if (m.matches()) {
+
+            String password = mEnterPasswordEd.getText().toString().trim();
+            if (!TextUtils.isEmpty(password)) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+
+                    jsonObject.put("passWord", password);
+                    jsonObject.put("userName", email);
+                    String o = (String) JSON.toJSON(jsonObject.toString());
+                    Log.e("chumu", "GoToLogin: j" + o);
+                    mPresenter.getData(USER_PASSWORD_LOGIN, o);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             } else {
-                showToast("正确输入手机号");
+                showToast("密码不能为空");
             }
+        } else {
+            showToast("请确保输入邮箱正确");
         }
     }
+
+
     private void mode1() {
         String userProtocol = "用户协议";
         String privacy = "隐私政策";
@@ -170,6 +188,7 @@ public class ForgetPasswordActivity extends BaseMvpActivity<UserModle> {
             }
         }).attach(mTvAgreement);
     }
+
     private void agreementOnCilck(int type) {
 
         Intent intent = new Intent(this, AgreementActivity.class);

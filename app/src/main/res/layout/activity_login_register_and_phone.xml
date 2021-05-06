@@ -12,21 +12,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_32"
-        android:layout_marginLeft="@dimen/dp_32"
-        android:layout_marginTop="@dimen/dp_32"
         android:layout_marginEnd="@dimen/dp_32"
-        android:layout_marginRight="@dimen/dp_32"
         android:layout_marginBottom="@dimen/dp_256"
         android:background="@drawable/newuserlogin"
-        android:text="@string/login"
+        android:text="@string/register_immediately"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_18"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vi_tow"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/vi_tow2" />
 
     <View
         android:id="@+id/vi_noe"
@@ -51,17 +47,37 @@
         app:layout_constraintStart_toStartOf="@+id/vi_noe"
         app:layout_constraintTop_toBottomOf="@+id/vi_noe" />
 
+    <View
+        android:id="@+id/vi_tow2"
+        android:layout_width="@dimen/dp_315"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/inputbox"
+        app:layout_constraintEnd_toEndOf="@+id/vi_noe"
+        app:layout_constraintStart_toStartOf="@+id/vi_noe"
+        app:layout_constraintTop_toBottomOf="@+id/vi_tow" />
+
+    <EditText
+        android:id="@+id/ed_pwd"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="@dimen/dp_16"
+        android:background="@drawable/edinputbox"
+        android:hint="输入密码"
+        android:inputType="textPassword"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintBottom_toBottomOf="@+id/vi_tow2"
+        app:layout_constraintStart_toStartOf="@+id/vi_noe"
+        app:layout_constraintTop_toTopOf="@+id/vi_tow2" />
+
     <EditText
         android:id="@+id/ed_phone"
         android:layout_width="@dimen/dp_150"
         android:layout_height="@dimen/dp_30"
         android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginLeft="@dimen/dp_16"
         android:background="@drawable/edinputbox"
-        android:ems="11"
-        android:hint="输入手机号"
-        android:inputType="phone"
-        android:maxLength="11"
+        android:hint="输入邮箱号"
+        android:inputType="textEmailAddress"
         android:textSize="@dimen/sp_15"
         app:layout_constraintBottom_toBottomOf="@+id/vi_noe"
         app:layout_constraintStart_toStartOf="@+id/vi_noe"
@@ -153,4 +169,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_free_login"
         app:layout_constraintTop_toTopOf="@+id/tv_free_login" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

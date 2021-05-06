@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.common_base.R;
@@ -35,6 +36,7 @@ public class CommonTitle extends RelativeLayout {
     private RelativeLayout mTitleRl;
     private final int mBackColor;
     private onCommonTitleListener mListener;
+    public Toolbar toolbar;
 
     public CommonTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -56,6 +58,7 @@ public class CommonTitle extends RelativeLayout {
 
 
     private void setUpView(Context context) {
+        toolbar = findViewById(R.id.toolbar);
         mTitleRl = findViewById(R.id.title_rl);
         mTitleRl.setBackgroundColor(mBackColor);
         mTvTitle = findViewById(R.id.title_content);

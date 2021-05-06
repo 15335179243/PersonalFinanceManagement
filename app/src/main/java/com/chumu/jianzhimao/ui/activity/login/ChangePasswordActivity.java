@@ -18,7 +18,7 @@ import com.example.common_base.base.BaseMvpActivity;
 import com.example.common_base.base.NotSignException;
 import com.example.common_base.utils.ToastUtil;
 import com.google.gson.Gson;
-import com.tanrice.unmengapptrack.UMengInit;
+
 
 import java.io.IOException;
 

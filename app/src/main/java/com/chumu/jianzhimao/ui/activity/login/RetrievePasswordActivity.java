@@ -4,25 +4,30 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.eys.EmailUtils;
 import com.chumu.jianzhimao.ui.activity.webview.AgreementActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
 import com.example.common_base.ApiConfig;
 import com.example.common_base.AppConfig;
 import com.example.common_base.base.BaseMvpActivity;
 import com.example.common_base.utils.SpannableStringAttach;
-import com.tanrice.unmengapptrack.UMengInit;
+import com.google.gson.Gson;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +63,7 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
     TextView mVerificationCodeLoginTv;
     private CountDownTimer mCountDownTimer;
     private String mPhone;
+    private String mSmsCode;
 
     @Override
     protected int onCreateContentView() {
@@ -66,6 +72,7 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     public void initView() {
+        getTitleView().mBackBtn.setVisibility(View.GONE);
         mode1();
     }
 
@@ -94,39 +101,7 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
                 break;
 
             case GET_V_CODE:
-                try {
-                    JSONObject jsonObject = new JSONObject(str.string());
-                    if (jsonObject.optInt("code") == 200) {
-                        mTvGetcode.setClickable(false);
-                        mTvGetcode.setVisibility(View.GONE);
-                        mTvCountDown.setVisibility(View.VISIBLE);
-                        mCountDownTimer = new CountDownTimer(60000, 1000) {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onTick(long l) {
-                                mTvCountDown.setText(String.valueOf(l / 1000) + "s");
-                            }
 
-                            @Override
-                            public void onFinish() {
-                                mTvGetcode.setClickable(true);
-                                mTvGetcode.setVisibility(View.VISIBLE);
-                                mTvCountDown.setVisibility(View.GONE);
-                                if (mCountDownTimer != null) {
-                                    mCountDownTimer = null;
-                                }
-
-                            }
-                        }.start();
-                        showToast("验证码发送成功");
-                    } else {
-                        showToast(jsonObject.optString("message"));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
 
         }
@@ -144,7 +119,8 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
                 startActivity(new Intent(this, ForgetPasswordActivity.class));
                 break;
             case R.id.tv_getcode:
-                GoToGetSms();
+                mPhone = mEdPhone.getText().toString().trim();
+                GoToGetSms(mPhone);
                 break;
             case R.id.Verification_code_login_tv:
                 startActivity(new Intent(this, RegisterAndPhoneLoginActivity.class));
@@ -154,31 +130,76 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
     }
 
 
-    private void GoToGetSms() {
-        String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0-9])|(16[013678])|(19[0136789]))\\d{8}$";
-        String phone = mEdPhone.getText().toString().trim();
-
-        if (phone.length() != 11) {
-            Toast.makeText(this, "手机号长度为11位", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            Pattern p = Pattern.compile(regex);
-            Matcher m = p.matcher(phone);
-            boolean isMatch = m.matches();
-            if (isMatch) {
-                show();
-                mPresenter.getData(ApiConfig.GET_V_CODE, phone);
-            } else {
-                showToast("正确输入手机号");
-            }
-
+    public boolean GoToGetSms(String email) {
+        if (null == email || "".equals(email)) {
+            Toast.makeText(this, "有邮箱不能为空", Toast.LENGTH_SHORT).show();
+            return false;
         }
+        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        Pattern p = Pattern.compile(regEx1);
+        Matcher m = p.matcher(email);
+        if (m.matches()) {
+            show();
+            EmailUtils.get163()
+                    .setEmailName("管理员发送短信业务邮件")
+                    .setReceiveEmailAccounts(email, "体验官")
+                    .sendMail("您有新的验证码，请注意查收", "感谢您对我们工作的支持，您的验证码是：" + random5(), new EmailUtils.onCallBack() {
+                        @Override
+                        public void CallS() {
+                            showToast("发送成功请查收邮箱");
+                            mCountDownTimer = new CountDownTimer(60000, 1000) {
+                                @SuppressLint("SetTextI18n")
+                                @Override
+                                public void onTick(long l) {
+                                    mTvCountDown.setText(String.valueOf(l / 1000) + "s");
+                                }
 
+                                @Override
+                                public void onFinish() {
+                                    mTvGetcode.setClickable(true);
+                                    mTvGetcode.setVisibility(View.VISIBLE);
+                                    mTvCountDown.setVisibility(View.GONE);
+                                    if (mCountDownTimer != null) {
+                                        mCountDownTimer = null;
+                                    }
+
+                                }
+                            }.start();
+                            showToast("验证码发送成功");
+                            hide();
+                        }
+
+                        @Override
+                        public void CallF() {
+                            mTvGetcode.setClickable(true);
+                            mTvGetcode.setVisibility(View.VISIBLE);
+                            mTvCountDown.setVisibility(View.GONE);
+                            if (mCountDownTimer != null) {
+                                mCountDownTimer = null;
+                            }
+                            showToast("发送失败,请确保网络链接");
+                            hide();
+
+                        }
+                    });
+            return true;
+        } else {
+            showToast("请正确输入邮箱");
+            return false;
+        }
     }
 
+    public String random5() {
+        String source = "0123456789";
+        Random random = new Random();
+        StringBuffer flag = new StringBuffer();
+        for (int j = 0; j < 6; j++) {
+            flag.append(source.charAt(random.nextInt(10)));
+        }
+        mSmsCode = flag.toString();
+        return mSmsCode;
 
-
-
+    }
 
 
     protected void onDestroy() {
@@ -191,27 +212,33 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
     }
 
     private void GoToLogin() {
-        String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0-9])|(16[013678])|(19[0136789]))\\d{8}$";
+        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
         mPhone = mEdPhone.getText().toString().trim();
-        String smsCode = mEdVerificationCode.getText().toString().trim();
-        if (mPhone.length() != 11) {
-            showToast("手机号长度为11位");
-            return;
-        } else {
-            Pattern p = Pattern.compile(regex);
-            Matcher m = p.matcher(mPhone);
-            boolean isMatch = m.matches();
-            if (isMatch) {
-                if (!TextUtils.isEmpty(smsCode)) {
-                    mPresenter.getData(USER_LOGIN, mPhone, UMengInit.getIntChannel(), AppConfig.User.Verification_Code_login,smsCode);
-                } else {
-                    showToast("验证码不能为空");
+
+        Pattern p = Pattern.compile(regEx1);
+        Matcher m = p.matcher(mPhone);
+        boolean isMatch = m.matches();
+        if (isMatch) {
+
+            if (!TextUtils.isEmpty(mSmsCode)) {
+                if (!mSmsCode.equals(mEdVerificationCode.getText().toString().trim())) {
+                    showToast("验证码错误");
+                    return;
                 }
+
+                Intent intent = new Intent(this, SetPasswordActivity.class);
+                intent.putExtra("userName", mPhone);
+                startActivity(intent);
+                finish();
             } else {
-                showToast("正确输入手机号");
+                showToast("验证码不能为空");
             }
+        } else {
+            showToast("请正确输入邮箱");
         }
+
     }
+
 
     private void mode1() {
         String userProtocol = "用户协议";
@@ -231,6 +258,7 @@ public class RetrievePasswordActivity extends BaseMvpActivity<UserModle> {
             }
         }).attach(mTvAgreement);
     }
+
     private void agreementOnCilck(int type) {
 
         Intent intent = new Intent(this, AgreementActivity.class);

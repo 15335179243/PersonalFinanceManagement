@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -30,6 +31,7 @@ import com.chumu.jianzhimao.ui.mvp.bean.BeanUpload;
 import com.chumu.jianzhimao.ui.mvp.bean.MyLisInfo;
 import com.example.common_base.ApiConfig;
 import com.example.common_base.SPConstant;
+import com.example.common_base.base.BaseApplication;
 import com.example.common_base.base.BaseMvpFragment;
 import com.example.common_base.design.RoundImage;
 import com.example.common_base.utils.GlideEngine;
@@ -42,24 +44,33 @@ import com.luck.picture.lib.compress.OnCompressListener;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.tanrice.unmengapptrack.UMengInit;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
+import static com.chumu.jianzhimao.ui.activity.eys.ImageUtils.uploadBitMap;
 import static com.example.common_base.ApiConfig.GET_PERFECT_INFO;
+import static com.example.common_base.ApiConfig.UPLOADING;
 
 
 public class MyFragment extends BaseMvpFragment<UserModle> {
@@ -77,6 +88,7 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
     private List<LocalMedia> selectList;
     private String mPic;
     private String mNickName;
+    private String mImgUrl;
     ;
 
     @Override
@@ -103,7 +115,7 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
             public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                 List<MyLisInfo> data = adapter.getData();
 
-                MyLisInfo.onSwitchPage(getActivity(),data.get(position).getItemId() );
+                MyLisInfo.onSwitchPage(getActivity(), data.get(position).getItemId());
             }
         });
     }
@@ -127,28 +139,31 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
     public void onResponse(int whichApi, Object[] t) {
         hide();
         String str = (String) t[0];
-        switch (whichApi) {
-            default:
-                break;
-            case ApiConfig.UPLOADING:
-                if (str != null) {
-                    BeanUpload beanUpload = new Gson().fromJson(str, BeanUpload.class);
-                    if (beanUpload.getCode() == 200) {
+        JSONObject jsonObject = null;
+        try {
+            if (str != null) {
 
-                        if (beanUpload.getData() != null) {
-                            mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, beanUpload.getData().getUrl());
-                            ToastUtil.toastShortMessage("修改头像成功");
-                        }
-
+                jsonObject = new JSONObject(str);
+            }
+            if (jsonObject == null) {
+                return;
+            }
+            switch (whichApi) {
+                default:
+                    break;
+                case ApiConfig.UPLOADING:
+                    if (jsonObject.opt("code") != null && jsonObject.getInt("code") == 200) {
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.NICKNAME, mNickName);
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, mImgUrl);
                     } else {
-                        ToastUtil.toastShortMessage(beanUpload.getDesc());
+                        ToastUtil.toastShortMessage(jsonObject.getString("desc"));
+
+
                     }
-                }
-                break;
-            case ApiConfig.GET_PERFECT_INFO:
-                if (str != null) {
+                    break;
+                case ApiConfig.GET_PERFECT_INFO:
                     try {
-                        JSONObject jsonObject = new JSONObject(str);
+
 
                         if (jsonObject.getInt("code") == 200) {
                             mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, mNickName);
@@ -159,10 +174,14 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                break;
+                    break;
 
 
+            }
+
+        } catch (
+                JSONException e) {
+            e.printStackTrace();
         }
 
     }
@@ -221,9 +240,20 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
                     break;
                 case 11:
                     mNickName = data.getStringExtra(SPConstant.Login.NICKNAME);
-                    mNicknameTv.setText(mNickName);
-                    mPresenter.getData(GET_PERFECT_INFO, mNickName, UMengInit.getIntChannel());
-                    show();
+                    mNicknameTv.setText(mNickName.trim());
+                    mChuMuSharedPreferences.putValue(SPConstant.Login.NICKNAME, mNickName.trim());
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("token", BaseApplication.mToken);
+                        jsonObject.put("nickName", mNickName.trim());
+                        String o = (String) JSON.toJSON(jsonObject.toString());
+                        Log.e("chumu", "onResponse: " + o);
+                        mPresenter.getData(ApiConfig.UPLOADING, o);
+                        show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     break;
             }
         }
@@ -249,8 +279,8 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
                     @Override
                     public void onSuccess(List<LocalMedia> list) {
 //                        Log.e("chumu", "onSuccess: "+  ) );
+                        upLoadImg(new File(getPath(list.get(0))));
 
-                        uplodePic(new File(getPath(list.get(0))));
                     }
 
 
@@ -287,9 +317,119 @@ public class MyFragment extends BaseMvpFragment<UserModle> {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        mPresenter.getData(ApiConfig.UPLOADING, form, filePart);
-        show();
+
     }
+
+    public void upLoadImg(File file) {
+        show();
+        Log.e("chumu", "uplodePic: " + file.getPath());
+        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient client = okHttpClient.newBuilder().readTimeout(10000, TimeUnit.MILLISECONDS).build();
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("email", "chumuemail@163.com")
+                .addFormDataPart("password", "qq123456..")
+                .build();
+        Request request = new Request.Builder()
+                .url("https://pic.liesio.com/api/token")
+                .post(requestBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("chumu", "onResponse: t  " + e);
+                hide();
+                ToastUtil.toastShortMessage("上传失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String token = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    int code = jsonObject.getInt("code");
+                    if (code == 200) {
+                        token = jsonObject.getJSONObject("data").getString("token");
+                        String finalToken = token;
+
+                        uploadImg(file, finalToken);
+
+                        Log.e("chumu", "onResponse: " + token);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    }
+
+    private void uploadImg(File file, String token) {
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+        MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", file.getName(), fileBody)
+                .build();
+        Request uploadRequest = new Request.Builder()
+                .url("https://pic.liesio.com/api/upload")
+                .post(requestBody)
+
+                .addHeader("token", token)
+                .build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient client = okHttpClient.newBuilder().readTimeout(10000, TimeUnit.MILLISECONDS).build();
+        client.newCall(uploadRequest).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("chumu", "onResponse: " + e);
+                hide();
+                ToastUtil.toastShortMessage("上传失败");
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                JSONObject jsonObject = null;
+                try {
+                    String string = response.body().string();
+                    Log.e("chumu1", "onResponse: " + string);
+                    jsonObject = new JSONObject(string);
+
+                    int code = jsonObject.getInt("code");
+                    if (code == 200) {
+                        mImgUrl = jsonObject.getJSONObject("data").getString("url");
+                        //todo上传成功以后的链接
+                        mChuMuSharedPreferences.putValue(SPConstant.Login.HEAD_PICTURE, mImgUrl);
+                        ToastUtil.toastShortMessage("修改头像成功");
+                        JSONObject jsonObject1 = new JSONObject();
+                        jsonObject1.put("token", BaseApplication.mToken);
+                        jsonObject1.put("headPhoto", mImgUrl);
+                        String o = (String) JSON.toJSON(jsonObject1.toString());
+                        Log.e("chumu", "onResponse: " + o);
+                        mPresenter.getData(ApiConfig.UPLOADING, o);
+                        show();
+                        Log.e("chumu", "onResponse: " + mImgUrl);
+
+                    } else {
+                        hide();
+                        ToastUtil.toastShortMessage("上传失败");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     @SuppressLint("NewApi")
     private static String getRealPathFromUriAboveApi19(Activity activity, Uri uri) {

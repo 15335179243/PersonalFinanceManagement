@@ -1,6 +1,9 @@
 package com.example.common_base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -8,9 +11,11 @@ import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -27,8 +32,10 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    String USER_LOGIN = "/appUser/login";
-    String UPLOAD_IMAGE = "/upload/image";
+    String USER_LOGIN = "login";
+    String USER_REGISTER = "register";
+    String FIND_PASSWORD = "findPassWord";
+    String UPLOAD_IMAGE = "updateUserInfo";
     String UPDATE_PASSWORD = "/appUser/updatePassword";
     String BROWSING_HISTORY = "/appUser/getBrowsingHistory";
     String GET_V_CODE = "/appUser/getVCode";
@@ -37,11 +44,19 @@ public interface ApiService {
     String BANNER_LIST = "/ad/getBannerList";
     String STATISTICS_NUM = "appUser/statisticsNum";
     String PERFECT_INFO = "/appUser/improvePersonalInfo";
+    String LOGOUT = "logout";
+    String QUERY_STATISTICS_TOTAL = "queryStatisticsTotal";
+    String GETCREATE_GROUP = "createGroup";
+    String FINANCE_LIST = "financeList";
+    String ADD_FINANCE = "addFinance";
+    String QUERY_GROUP = "queryGroup";
+    String LOGOUT_GROUP = "logoutGroup";
+    String ADD_GROUP = "addGroup";
 
 
     @POST(UPLOAD_IMAGE)
-    @Multipart
-    Observable<ResponseBody> getUpLodeImg(@Part("key") RequestBody key, @Part MultipartBody.Part file);
+    @FormUrlEncoded
+    Observable<ResponseBody> getUpLodeImg(@Field("req") String json);
 
     @POST(UPDATE_PASSWORD)
     @FormUrlEncoded
@@ -56,11 +71,42 @@ public interface ApiService {
 
     @POST(USER_LOGIN)
     @FormUrlEncoded
-    Observable<ResponseBody> getLoginPassword(@Field("mobile") String mobile, @Field("password") String password, @Field("createChannel") int channel, @Field("type") int type);
+    Observable<ResponseBody> getLoginPassword(@Field("req") String json);
 
-    @POST(USER_LOGIN)
+
+    @POST(USER_REGISTER)
     @FormUrlEncoded
-    Observable<ResponseBody> getLoginVerification(@Field("mobile") String mobile, @Field("createChannel") int channel, @Field("type") int type, @Field("vCode") String vCode);
+    Observable<ResponseBody> getLoginVerification(@Field("req") String json);
+
+    @GET(QUERY_STATISTICS_TOTAL)
+    Observable<ResponseBody> getLogout(@Query("token") String token);
+
+    @GET(QUERY_STATISTICS_TOTAL )
+    Observable<ResponseBody> getQueryStatisticsTotal(@Query("token") String token);
+
+    @GET(GETCREATE_GROUP)
+    Observable<ResponseBody> getCreateGroup(@Query("token") String token,@Query("groupName") String  groupName);
+
+    @GET(QUERY_GROUP)
+    Observable<ResponseBody> getQueryGroup(@Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
+
+    @GET(ADD_GROUP)
+    Observable<ResponseBody> getAddGroup(@Query("groupId") int groupId, @Query("token") String token);
+
+    @GET(LOGOUT_GROUP)
+    Observable<ResponseBody> getLogouTGroup(@Query("groupId") int groupId, @Query("token") String token);
+
+    @POST(FIND_PASSWORD)
+    @FormUrlEncoded
+    Observable<ResponseBody> getFindPassword(@Field("req") String json);
+
+    @POST(FINANCE_LIST)
+    @FormUrlEncoded
+    Observable<ResponseBody> getFinanceList(@Field("financeListReq") String json);
+
+    @POST(ADD_FINANCE)
+    @FormUrlEncoded
+    Observable<ResponseBody> getAddFinance(@Field("financeListReq") String json);
 
     @POST(USER_LOGIN)
     @FormUrlEncoded
@@ -84,7 +130,6 @@ public interface ApiService {
     Observable<ResponseBody> getPerfectInfo(@Field("nickName") String nickName, @Field("createChannel") int createChannel);
 
 
-    @GET(BANNER_LIST)
-    Observable<ResponseBody> getBannerList();
+
 
 }

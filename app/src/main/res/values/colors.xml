@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#F30091CA</color>
+    <color name="colorPrimaryDark">#F30091CA</color>
+    <color name="colorAccent">#F30091CA</color>
     <color name="item_lins">#F0EDED</color>
     <color name="item_lins_bg">#eaeaea</color>
     <color name="colorBackground">#fff8f8f8</color>
     <color name="write">#ffffff</color>
     <color name="D7D7D7">#D7D7D7</color>
     <color name="color_2631BFA0">#2631BDA0</color>
+    <color name="c_e7e7e7">#e7e7e7</color>
 </resources>

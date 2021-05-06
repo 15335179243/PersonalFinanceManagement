@@ -33,11 +33,43 @@ public class HomeModle implements ICommonModel {
                 mManager.method(mManager.getNetService().getAppList((int) t[0], (int) t[1], (int) t[2]), view, whichApi, (int) t[3]);
 
                 break;
-            case ApiConfig.GET_BANNER_LIST:
-                mManager.method(mManager.getNetService().getBannerList(), view, whichApi, (int) t[0]);
-                break;
             case ApiConfig.GET_STATISTICS_NUM:
                 mManager.method(mManager.getNetService().getStatisticsNum((int) t[0], (int) t[1], (int) t[2]), view, whichApi, t[0]);
+
+                break;
+            case ApiConfig.QUERY_STATISTICS_TOTAL:
+                mManager.method(mManager.getNetService().getQueryStatisticsTotal((String) t[0]), view, whichApi, t[0]);
+
+                break;
+            case ApiConfig.FINANCE_LIST:
+                mManager.method(mManager.getNetService().getFinanceList((String) t[0]), view, whichApi, t[0]);
+
+                break;
+            case ApiConfig.ADDFINANCE:
+                mManager.method(mManager.getNetService().getAddFinance((String) t[0]), view, whichApi, t[0]);
+
+                break;
+            case ApiConfig.CREATEGROUP:
+                mManager.method(mManager.getNetService().getCreateGroup((String) t[0],(String) t[1]), view, whichApi, t[0]);
+
+                break;
+
+            case ApiConfig.UPLOADING:
+
+                mManager.method(mManager.getNetService().getUpLodeImg((String) t[0]), view, whichApi, t);
+
+                break;
+            case ApiConfig.QUERY_GROUP:
+
+                mManager.method(mManager.getNetService().getQueryGroup((int) t[0],(int) t[1]), view, whichApi, t);
+                break;
+            case ApiConfig.ADD_GROUP:
+
+                mManager.method(mManager.getNetService().getAddGroup((int) t[0], (String) t[1]), view, whichApi, t);
+                break;
+            case ApiConfig.LOGOUT_GROUP:
+
+                mManager.method(mManager.getNetService().getLogouTGroup((int) t[0], (String) t[1]), view, whichApi, t);
 
                 break;
         }

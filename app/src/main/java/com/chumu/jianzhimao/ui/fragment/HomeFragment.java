@@ -2,37 +2,36 @@ package com.chumu.jianzhimao.ui.fragment;
 
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
+import com.chumu.dt.v24.magicbox.livedatabus.ChuMuLiveDataBus;
+import com.chumu.dt.v24.magicbox.wiget.ChuMuNormalDecoration;
 import com.chumu.jianzhimao.R;
-import com.chumu.jianzhimao.ui.activity.HomeActivity;
-import com.chumu.jianzhimao.ui.activity.login.SetPasswordActivity;
-import com.chumu.jianzhimao.ui.adapter.VpHomeAdapter;
+import com.chumu.jianzhimao.ui.adapter.RlvV2exDetailsAdapter;
 import com.chumu.jianzhimao.ui.mvp.HomeModle;
-import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeTab;
-import com.chumu.jianzhimao.ui.mvp.bean.BeanLogin;
-import com.example.common_base.AppConfig;
-import com.example.common_base.SPConstant;
+import com.chumu.jianzhimao.ui.mvp.bean.BeanHomeList;
+import com.chumu.jianzhimao.ui.mvp.bean.GroutBean;
+import com.example.common_base.base.BaseApplication;
 import com.example.common_base.base.BaseMvpFragment;
-import com.example.common_base.utils.ToastUtil;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 
+import static com.example.common_base.ApiConfig.FINANCE_LIST;
 import static com.example.common_base.ApiConfig.GET_HOME_TAB;
-import static com.example.common_base.ApiConfig.USER_LOGIN;
 
 
 /**
@@ -40,15 +39,11 @@ import static com.example.common_base.ApiConfig.USER_LOGIN;
  */
 public class HomeFragment extends BaseMvpFragment<HomeModle> {
 
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
-    @BindView(R.id.vp_page)
-    ViewPager2 mVpPage;
-    private VpHomeAdapter mVpHomeAdapter;
-    private List<BeanHomeTab.DataBean> mData;
-    private ArrayList<Fragment> mMFragments;
-    private TabLayoutMediator mTabLayoutMediator;
 
+    @BindView(R.id.list_rlv)
+    RecyclerView listRlv;
+    private int page = 1;
+    private RlvV2exDetailsAdapter mRlvV2exDetailsAdapter;
 
     @Override
     public int getLayoutId() {
@@ -57,67 +52,43 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
 
     @Override
     public void initView() {
-        mMFragments = new ArrayList<>();
 
-
-    }
-
-    private void initTab() {
-        mVpHomeAdapter = new VpHomeAdapter(getActivity(), mMFragments);
-        mVpPage.setAdapter(mVpHomeAdapter);
-        mVpPage.setCurrentItem(0);
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        listRlv.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRlvV2exDetailsAdapter = new RlvV2exDetailsAdapter(getContext());
+        listRlv.setAdapter(mRlvV2exDetailsAdapter);
+        mRlvV2exDetailsAdapter.setOnClickListener(new RlvV2exDetailsAdapter.OnClickListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mVpPage.setCurrentItem(tab.getPosition());
-
-                View view = tab.getCustomView();
-                if (null == view) {
-                    tab.setCustomView(R.layout.tab_layout_text);
-                }
-                TextView textView = Objects.requireNonNull(tab.getCustomView()).findViewById(android.R.id.text1);
-                textView.setTextAppearance(getActivity(), R.style.TabLayoutTextSize);
-
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-//                mVpPage.setCurrentItem(tab.getPosition());
-                View view = tab.getCustomView();
-                if (null == view) {
-                    tab.setCustomView(R.layout.tab_layout_text);
-                }
-                TextView textView = tab.getCustomView().findViewById(android.R.id.text1);
-                textView.setTextAppearance(getActivity(), R.style.TabLayoutTextSizeTow);
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onClick(View v, int i, int j) {
 
             }
         });
 
-       new TabLayoutMediator(mTabLayout, mVpPage, new TabLayoutMediator.TabConfigurationStrategy() {
+        ChuMuLiveDataBus.INSTANCE.with("jiyibi").observe(this, new Observer<Object>() {
             @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if (mData != null) {
-                    tab.setText(mData.get(position).getIndexName());
-                }
+            public void onChanged(Object o) {
 
+                initData();
             }
-        }).attach();
+        });
     }
 
 
     @Override
     public void initData() {
         show();
-        mPresenter.getData(GET_HOME_TAB);
-//        HashMap<String, String> map = new HashMap<>();
-//        map.put("menuId", String.valueOf(MainAplication.menuid));
-//        mPresenter.getData(ApiConfig.GET_DATA_HOME_MENUS, MainAplication.menuid, Encryption.formatUrlParam(map));
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", BaseApplication.mToken);
+
+            jsonObject.put("pageNo", page);
+            jsonObject.put("pageSize", 20);
+            String o = (String) JSON.toJSON(jsonObject.toString());
+            Log.e("chumu", "GoToLogin: j" + o);
+            mPresenter.getData(FINANCE_LIST, o);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -137,26 +108,31 @@ public class HomeFragment extends BaseMvpFragment<HomeModle> {
         switch (whichApi) {
             default:
                 break;
-            case GET_HOME_TAB:
-                BeanHomeTab beanHomeTab = new Gson().fromJson(str, BeanHomeTab.class);
-                if (beanHomeTab.getCode() == 200) {
-                    mData = beanHomeTab.getData();
-                    for (BeanHomeTab.DataBean datum : mData) {
-                        Bundle bundle = new Bundle();
-                        bundle.putInt(AppConfig.DataTag.PLACE, datum.getIndexType());
-                        HomeChildFragment homeChildFragment = new HomeChildFragment();
-                        homeChildFragment.setArguments(bundle);
-                        mMFragments.add(homeChildFragment);
+            case FINANCE_LIST:
+                BeanHomeList beanHomeList = new Gson().fromJson(str, BeanHomeList.class);
+                if (beanHomeList != null && beanHomeList.getCode() == 200) {
+                    if (beanHomeList.getData().getRows() != null) {
 
+
+                        ChuMuNormalDecoration decoration = new ChuMuNormalDecoration() {
+                            @Override
+                            public String getHeaderName(int pos) {
+
+                                if (beanHomeList.getData().getRows().get(pos).getCreatedTime() != null) {
+                                    return beanHomeList.getData().getRows().get(pos).getCreatedTime();
+                                } else {
+                                    return "数据为空";
+                                }
+                            }};
+
+                        listRlv.addItemDecoration(decoration);
+                        mRlvV2exDetailsAdapter.addlist(beanHomeList.getData().getRows());
                     }
-                    initTab();
 
-                }else {
-                    ToastUtil.toastShortMessage(beanHomeTab.getDesc());
+                    break;
                 }
-                break;
         }
+
+
     }
-
-
 }

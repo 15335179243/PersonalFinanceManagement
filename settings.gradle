@@ -2,4 +2,4 @@ rootProject.name='JianZhiMao'
 include ':app'
 include ':common_base'
 include ':X5WebView'
-include ':unmengapptrack'
+

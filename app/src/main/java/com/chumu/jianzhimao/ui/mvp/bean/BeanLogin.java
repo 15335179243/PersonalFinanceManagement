@@ -1,7 +1,5 @@
 package com.chumu.jianzhimao.ui.mvp.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * JianZhiMao
  * <p>
@@ -17,15 +15,13 @@ public class BeanLogin {
     /**
      * code : 200
      * desc : 成功
-     * requestTime : 1600394332863
-     * traceId : c0a8281e16003943327561003312124
-     * data : {"id":5,"mobile":"15819495896","signature":"暂无个性签名,点击进行设置","nickName":"普通会员","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwidXNlckluZm8iOnsidXNlcklkIjo1fSwiZXhwIjoxNjAwNDgwNzMyLCJpYXQiOjE2MDAzOTQzMzJ9.bkvweH4NzTbEEDMt_ZbJUHOBnbwB2aG1qn8U0X3i9zc","headPicture":"http://192.168.40.26:9000/appimage/file1600393530461","\u201dwhetherRegister\u201c":true}
+     * requestTime : 1620202662705
+     * data : {"id":6,"nickName":"我的快乐","headPhoto":"https://pic.liesio.com/2021/05/05/d5d00444f0b24.jpeg","moneyLimit":200,"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwidXNlckluZm8iOnsibmlja05hbWUiOiLmiJHnmoTlv6vkuZAiLCJpZCI6Nn0sImV4cCI6MTYyMDI4OTA2MiwiaWF0IjoxNjIwMjAyNjYyfQ.qPMBxN2JXr-oMc_uYtwaUalBeePVdl8XXOiKd0U42Dk"}
      */
 
     private int code;
     private String desc;
     private long requestTime;
-    private String traceId;
     private DataBean data;
 
     public int getCode() {
@@ -52,14 +48,6 @@ public class BeanLogin {
         this.requestTime = requestTime;
     }
 
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
     public DataBean getData() {
         return data;
     }
@@ -70,22 +58,18 @@ public class BeanLogin {
 
     public static class DataBean {
         /**
-         * id : 5
-         * mobile : 15819495896
-         * signature : 暂无个性签名,点击进行设置
-         * nickName : 普通会员
-         * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwidXNlckluZm8iOnsidXNlcklkIjo1fSwiZXhwIjoxNjAwNDgwNzMyLCJpYXQiOjE2MDAzOTQzMzJ9.bkvweH4NzTbEEDMt_ZbJUHOBnbwB2aG1qn8U0X3i9zc
-         * headPicture : http://192.168.40.26:9000/appimage/file1600393530461
-         * ”whetherRegister“ : true
+         * id : 6
+         * nickName : 我的快乐
+         * headPhoto : https://pic.liesio.com/2021/05/05/d5d00444f0b24.jpeg
+         * moneyLimit : 200
+         * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwidXNlckluZm8iOnsibmlja05hbWUiOiLmiJHnmoTlv6vkuZAiLCJpZCI6Nn0sImV4cCI6MTYyMDI4OTA2MiwiaWF0IjoxNjIwMjAyNjYyfQ.qPMBxN2JXr-oMc_uYtwaUalBeePVdl8XXOiKd0U42Dk
          */
 
         private int id;
-        private String mobile;
-        private String signature;
         private String nickName;
+        private String headPhoto;
+        private int moneyLimit;
         private String token;
-        private String headPicture;
-        private boolean register; // FIXME check this code
 
         public int getId() {
             return id;
@@ -93,22 +77,6 @@ public class BeanLogin {
 
         public void setId(int id) {
             this.id = id;
-        }
-
-        public String getMobile() {
-            return mobile;
-        }
-
-        public void setMobile(String mobile) {
-            this.mobile = mobile;
-        }
-
-        public String getSignature() {
-            return signature;
-        }
-
-        public void setSignature(String signature) {
-            this.signature = signature;
         }
 
         public String getNickName() {
@@ -119,28 +87,28 @@ public class BeanLogin {
             this.nickName = nickName;
         }
 
+        public String getHeadPhoto() {
+            return headPhoto;
+        }
+
+        public void setHeadPhoto(String headPhoto) {
+            this.headPhoto = headPhoto;
+        }
+
+        public int getMoneyLimit() {
+            return moneyLimit;
+        }
+
+        public void setMoneyLimit(int moneyLimit) {
+            this.moneyLimit = moneyLimit;
+        }
+
         public String getToken() {
             return token;
         }
 
         public void setToken(String token) {
             this.token = token;
-        }
-
-        public String getHeadPicture() {
-            return headPicture;
-        }
-
-        public void setHeadPicture(String headPicture) {
-            this.headPicture = headPicture;
-        }
-
-        public boolean isRegister() {
-            return register;
-        }
-
-        public void setRegister(boolean register) {
-            this.register = register;
         }
     }
 }

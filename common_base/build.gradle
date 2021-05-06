@@ -143,8 +143,8 @@ dependencies {
     api 'com.github.xiangtailiang:tablayout:1.0.0'
     api project(path: ':X5WebView')
 
-    api "com.youth.banner:banner:$banner"
+//    api "com.youth.banner:banner:$banner"
 
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9'
-    api project(path: ':unmengapptrack')
+//    api project(path: ':unmengapptrack')
 }

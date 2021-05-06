@@ -31,7 +31,7 @@ task clean(type: Delete) {
 
     project.ext {
         android = [
-                minSdk = 21,
+                minSdk = 24,
                 targetSdk = 28,
                 compileSdk = 29,
                 appVersionName = "1",

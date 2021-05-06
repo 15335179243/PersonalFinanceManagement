@@ -42,7 +42,7 @@ public class BaseApplication extends APPAplication {
         sApplication = this;
         mUuid = DeviceUuidFactory.getInstance(getApplicationContext()).getDeviceUuid();
         Log.e("uuid:", mUuid + "\n" + mUuid.toString());
-        GlobalCrashCapture.instance().init(this, BuildConfig.DEBUG);
+//        GlobalCrashCapture.instance().init(this, BuildConfig.DEBUG);
         ChuMuAppUtils.init(this);
     }
 

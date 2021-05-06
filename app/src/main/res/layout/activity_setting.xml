@@ -33,7 +33,7 @@
                     android:layout_height="@dimen/dp_50"
                     android:layout_weight="9"
                     android:gravity="center_vertical"
-                    android:text="      关于小鹿"
+                    android:text="       关于作者"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_16" />
 

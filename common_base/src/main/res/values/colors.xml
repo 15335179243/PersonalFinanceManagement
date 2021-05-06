@@ -24,4 +24,14 @@
     <color name="black_title">#000000</color>
     <color name="hint_gray">#999999</color>
     <color name="red">#ff0000</color>
+
+    <color name="E7218D">#E7218D</color>
+    <color name="CED349C1">#CED349C1</color>
+
+    <color name="colorBackground">#EEEEEE</color>
+    <color name="EEEEEE">#eeeeee</color>
+    <color name="T18877C">#18877C</color>
+    <color name="c_636363">#636363</color>
+    <color name="c_e7e7e7">#e7e7e7</color>
+    <color name="c_A4E4F0">#A4E4F0</color>
 </resources>

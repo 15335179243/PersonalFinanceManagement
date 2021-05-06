@@ -16,15 +16,13 @@ public class BeanHomeList {
     /**
      * code : 200
      * desc : 成功
-     * requestTime : 1600960222181
-     * traceId : ac110001160096022200010488602
-     * data : {"total":6,"more":1,"rows":[{"id":6,"name":"软件运营","createDate":"2020-09-10","contact":"热门兼职","digest":"经济独立","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"小小酥","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=6"},{"id":3,"name":"视频兼职","createDate":"2020-09-10","contact":"热门兼职","digest":"球鞋文化","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"苏小小","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=3"},{"id":2,"name":"抖音兼职","createDate":"2020-09-10","contact":"热门兼职","digest":"快速经济独立","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"苏小小","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=2"},{"id":5,"name":"软件开发","createDate":"2020-09-10","contact":"热门兼职","digest":"网红养成记","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"小小酥","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=5"},{"id":4,"name":"软件设计","createDate":"2020-09-10","contact":"热门兼职","digest":"寻求志同道合的人","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"小小酥","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=4"},{"id":1,"name":"广告兼职","createDate":"2020-09-10","contact":"热门兼职","digest":"看脸的时代","labelList":["日结","月结","高薪"],"applyNum":1,"shareNum":0,"collectNum":0,"serviceName":"苏小小","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=1"}]}
+     * requestTime : 1620216906688
+     * data : {"total":5,"more":0,"rows":[{"id":5,"userId":1,"desc":"收入","created":"2021-05-03T23:21:11.000+0000","createdTime":"2021-05-04","status":2,"money":2050},{"id":3,"userId":1,"desc":"支出","created":"2021-05-03T23:19:55.000+0000","createdTime":"2021-05-04","status":1,"money":50},{"id":1,"userId":1,"desc":"收入","created":"2021-05-03T23:18:34.000+0000","createdTime":"2021-05-04","status":2,"money":100},{"id":2,"userId":1,"desc":"收入","created":"2021-05-02T23:18:41.000+0000","createdTime":"2021-05-03","status":1,"money":50},{"id":4,"userId":1,"desc":"这是收入","created":"2021-05-01T23:20:49.000+0000","createdTime":"2021-05-02","status":1,"money":50}]}
      */
 
     private int code;
     private String desc;
     private long requestTime;
-    private String traceId;
     private DataBean data;
 
     public int getCode() {
@@ -51,14 +49,6 @@ public class BeanHomeList {
         this.requestTime = requestTime;
     }
 
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
     public DataBean getData() {
         return data;
     }
@@ -69,9 +59,9 @@ public class BeanHomeList {
 
     public static class DataBean {
         /**
-         * total : 6
-         * more : 1
-         * rows : [{"id":6,"name":"软件运营","createDate":"2020-09-10","contact":"热门兼职","digest":"经济独立","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"小小酥","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=6"},{"id":3,"name":"视频兼职","createDate":"2020-09-10","contact":"热门兼职","digest":"球鞋文化","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"苏小小","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=3"},{"id":2,"name":"抖音兼职","createDate":"2020-09-10","contact":"热门兼职","digest":"快速经济独立","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"苏小小","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=2"},{"id":5,"name":"软件开发","createDate":"2020-09-10","contact":"热门兼职","digest":"网红养成记","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"小小酥","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=5"},{"id":4,"name":"软件设计","createDate":"2020-09-10","contact":"热门兼职","digest":"寻求志同道合的人","labelList":["日结","月结","高薪"],"applyNum":0,"shareNum":0,"collectNum":0,"serviceName":"小小酥","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=4"},{"id":1,"name":"广告兼职","createDate":"2020-09-10","contact":"热门兼职","digest":"看脸的时代","labelList":["日结","月结","高薪"],"applyNum":1,"shareNum":0,"collectNum":0,"serviceName":"苏小小","picture":"http://192.168.40.26:9000/bgimage/file1600847963881","positionDetailsLink":"http:192.168.40.21:9093?positionId=1"}]
+         * total : 5
+         * more : 0
+         * rows : [{"id":5,"userId":1,"desc":"收入","created":"2021-05-03T23:21:11.000+0000","createdTime":"2021-05-04","status":2,"money":2050},{"id":3,"userId":1,"desc":"支出","created":"2021-05-03T23:19:55.000+0000","createdTime":"2021-05-04","status":1,"money":50},{"id":1,"userId":1,"desc":"收入","created":"2021-05-03T23:18:34.000+0000","createdTime":"2021-05-04","status":2,"money":100},{"id":2,"userId":1,"desc":"收入","created":"2021-05-02T23:18:41.000+0000","createdTime":"2021-05-03","status":1,"money":50},{"id":4,"userId":1,"desc":"这是收入","created":"2021-05-01T23:20:49.000+0000","createdTime":"2021-05-02","status":1,"money":50}]
          */
 
         private int total;
@@ -104,50 +94,22 @@ public class BeanHomeList {
 
         public static class RowsBean {
             /**
-             * id : 6
-             * name : 软件运营
-             * createDate : 2020-09-10
-             * contact : 热门兼职
-             * digest : 经济独立
-             * labelList : ["日结","月结","高薪"]
-             * applyNum : 0
-             * shareNum : 0
-             * collectNum : 0
-             * serviceName : 小小酥
-             * picture : http://192.168.40.26:9000/bgimage/file1600847963881
-             * positionDetailsLink : http:192.168.40.21:9093?positionId=6
+             * id : 5
+             * userId : 1
+             * desc : 收入
+             * created : 2021-05-03T23:21:11.000+0000
+             * createdTime : 2021-05-04
+             * status : 2
+             * money : 2050
              */
 
             private int id;
-            private String name;
-            private String createDate;
-            private String contact;
-            private String digest;
-            private int applyNum;
-            private int shareNum;
-            private int collectNum;
-            private String serviceName;
-            private String picture;
-            private String positionDetailsLink;
-            private String headPhoto;
-            private List<String> labelList;
-            private boolean haveCollect=false;
-
-            public boolean isHaveCollect() {
-                return haveCollect;
-            }
-
-            public void setHaveCollect(boolean haveCollect) {
-                this.haveCollect = haveCollect;
-            }
-
-            public String getHeadPhoto() {
-                return headPhoto;
-            }
-
-            public void setHeadPhoto(String headPhoto) {
-                this.headPhoto = headPhoto;
-            }
+            private int userId;
+            private String desc;
+            private String created;
+            private String createdTime;
+            private int status;
+            private int money;
 
             public int getId() {
                 return id;
@@ -157,112 +119,52 @@ public class BeanHomeList {
                 this.id = id;
             }
 
-            public String getName() {
-                return name;
+            public int getUserId() {
+                return userId;
             }
 
-            public void setName(String name) {
-                this.name = name;
+            public void setUserId(int userId) {
+                this.userId = userId;
             }
 
-            public String getCreateDate() {
-                return createDate;
+            public String getDesc() {
+                return desc;
             }
 
-            public void setCreateDate(String createDate) {
-                this.createDate = createDate;
+            public void setDesc(String desc) {
+                this.desc = desc;
             }
 
-            public String getContact() {
-                return contact;
+            public String getCreated() {
+                return created;
             }
 
-            public void setContact(String contact) {
-                this.contact = contact;
+            public void setCreated(String created) {
+                this.created = created;
             }
 
-            public String getDigest() {
-                return digest;
+            public String getCreatedTime() {
+                return createdTime;
             }
 
-            public void setDigest(String digest) {
-                this.digest = digest;
+            public void setCreatedTime(String createdTime) {
+                this.createdTime = createdTime;
             }
 
-            public int getApplyNum() {
-                return applyNum;
+            public int getStatus() {
+                return status;
             }
 
-            public void setApplyNum(int applyNum) {
-                this.applyNum = applyNum;
+            public void setStatus(int status) {
+                this.status = status;
             }
 
-            public int getShareNum() {
-                return shareNum;
+            public int getMoney() {
+                return money;
             }
 
-            public void setShareNum(int shareNum) {
-                this.shareNum = shareNum;
-            }
-
-            public int getCollectNum() {
-                return collectNum;
-            }
-
-            public void setCollectNum(int collectNum) {
-                this.collectNum = collectNum;
-            }
-
-            public String getServiceName() {
-                return serviceName;
-            }
-
-            public void setServiceName(String serviceName) {
-                this.serviceName = serviceName;
-            }
-
-            public String getPicture() {
-                return picture;
-            }
-
-            public void setPicture(String picture) {
-                this.picture = picture;
-            }
-
-            public String getPositionDetailsLink() {
-                return positionDetailsLink;
-            }
-
-            public void setPositionDetailsLink(String positionDetailsLink) {
-                this.positionDetailsLink = positionDetailsLink;
-            }
-
-            public List<String> getLabelList() {
-                return labelList;
-            }
-
-            public void setLabelList(List<String> labelList) {
-                this.labelList = labelList;
-            }
-
-            @Override
-            public String toString() {
-                return "RowsBean{" +
-                        "id=" + id +
-                        ", name='" + name + '\'' +
-                        ", createDate='" + createDate + '\'' +
-                        ", contact='" + contact + '\'' +
-                        ", digest='" + digest + '\'' +
-                        ", applyNum=" + applyNum +
-                        ", shareNum=" + shareNum +
-                        ", collectNum=" + collectNum +
-                        ", serviceName='" + serviceName + '\'' +
-                        ", picture='" + picture + '\'' +
-                        ", positionDetailsLink='" + positionDetailsLink + '\'' +
-                        ", headPhoto='" + headPhoto + '\'' +
-                        ", labelList=" + labelList +
-                        ", haveCollect=" + haveCollect +
-                        '}';
+            public void setMoney(int money) {
+                this.money = money;
             }
         }
     }

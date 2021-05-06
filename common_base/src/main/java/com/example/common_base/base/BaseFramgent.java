@@ -39,6 +39,7 @@ public abstract class BaseFramgent extends Fragment implements NetStatusBroadCas
     public NetStatusBroadCast mNetStatusBroadCast;
     private LoadingDialogWithContent mLoading;
     public ChuMuSharedPreferences mChuMuSharedPreferences;
+    public View mInflate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,12 +48,12 @@ public abstract class BaseFramgent extends Fragment implements NetStatusBroadCas
         mLoading = new LoadingDialogWithContent(getContext(), "正在加载...");
         showLog("我就是一个类："+this.getClass().getSimpleName());
         mApplication = (BaseApplication) getActivity().getApplication();
-        View inflate = inflater.inflate(getLayoutId() ,container, false);
-        mBind = ButterKnife.bind(this, inflate);
+        mInflate = inflater.inflate(getLayoutId() ,container, false);
+        mBind = ButterKnife.bind(this, mInflate);
         initmvp();
         initView();
         initData();
-        return inflate;
+        return mInflate;
     }
 
     public  void initmvp(){};

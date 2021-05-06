@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:title="@string/information">
+        <menu>
+            <item
+                android:id="@+id/zhuhu"
+                android:checkable="true"
+                android:checked="true"
+                android:icon="@mipmap/ic_drawer_zhihu"
+                android:title="@string/zhihu" />
+            <item
+                android:id="@+id/wxnew"
+                android:checkable="true"
+                android:icon="@mipmap/ic_drawer_wechat"
+                android:title="@string/wxnew" />
+            <item
+                android:id="@+id/gank"
+                android:checkable="true"
+                android:icon="@mipmap/ic_drawer_gank"
+                android:title="@string/gank" />
+            <item
+                android:id="@+id/gold"
+                android:checkable="true"
+                android:icon="@mipmap/ic_drawer_gold"
+                android:title="@string/gold" />
+            <item
+                android:id="@+id/vtowex"
+                android:checkable="true"
+                android:icon="@mipmap/ic_drawer_vtex"
+                android:title="@string/v2ex" />
+
+        </menu>
+    </item>
+
+    <item android:title="@string/option">
+        <menu>
+            <item
+                android:id="@+id/collection"
+                android:checkable="true"
+                android:icon="@mipmap/ic_drawer_like"
+                android:title="@string/collection" />
+            <item
+                android:id="@+id/setting"
+                android:checkable="true"
+                android:icon="@mipmap/ic_drawer_setting"
+                android:title="@string/setting" />
+            <item
+                android:id="@+id/about"
+                android:checkable="true"
+                android:icon="@mipmap/ic_drawer_about"
+                android:title="@string/about" />
+
+        </menu>
+    </item>
+</menu>

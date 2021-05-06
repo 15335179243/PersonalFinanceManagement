@@ -1,24 +1,40 @@
 package com.chumu.jianzhimao.ui.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.chumu.dt.v24.magicbox.appbox.ChuMuAppACache;
 import com.chumu.dt.v24.magicbox.appbox.ChuMuAppCleanManager;
 import com.chumu.jianzhimao.R;
+import com.chumu.jianzhimao.ui.activity.eys.OkHttpRequestUtils;
 import com.chumu.jianzhimao.ui.activity.login.ChangePasswordActivity;
 import com.chumu.jianzhimao.ui.activity.login.SetPasswordActivity;
 import com.chumu.jianzhimao.ui.mvp.UserModle;
+import com.example.common_base.ApiConfig;
+import com.example.common_base.ApiService;
+import com.example.common_base.NetConfig;
+import com.example.common_base.SPConstant;
 import com.example.common_base.base.BaseMvpActivity;
 import com.example.common_base.base.NotSignException;
 import com.example.common_base.local_utils.SharedPrefrenceUtils;
 import com.example.common_base.utils.GlideCacheUtil;
+import com.example.common_base.utils.ToastUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+
+import static com.example.common_base.ApiConfig.USER_PASSWORD_LOGIN;
 
 public class SettingActivity extends BaseMvpActivity<UserModle> {
 
@@ -40,7 +56,7 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
 
     @Override
     protected int onCreateContentView() {
-         return R.layout.activity_setting;
+        return R.layout.activity_setting;
     }
 
     @Override
@@ -69,48 +85,44 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
 
     }
 
+
     @Override
     public void onResponse(int whichApi, Object[] t) {
 
+        hide();
+        String str = (String) t[0];
+        switch (whichApi) {
+            default:
+                break;
+            case ApiConfig.LOGOUT:
+
+                try {
+
+                    JSONObject jsonObject1 = new JSONObject(str);
+                    if (jsonObject1.opt("code") != null && jsonObject1.getInt("code") == 200) {
+                        ToastUtil.toastShortMessage("退出登录成功");
+                        onSingEvent();
+
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+        }
     }
 
-    //    @Override
-//    public void onResponse(int whichApi, Object[] t) {
-//        hide();
-//        switch (whichApi) {
-//            default:
-//                break;
-//            case ApiConfig.GET_TEACHER_COPY_WECHAT:
-//                ResponseBody responseBody = (ResponseBody) t[0];
-//                try {
-//                    JSONObject jsonObject = new JSONObject(responseBody.string());
+    //
 //
-//                    if (jsonObject.optInt("code") == 10000) {
-//                        showToast("复制成功");
-//                        super.SetmButtonaddweixinClick();
-//                        hideConsultTeacher();
-//                    } else {
-//                        showToast(jsonObject.optJSONObject("res").optString("message"));
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                break;
-//
-//        }
-//    }
-//
-//
-    @OnClick({ R.id.ll_about, R.id.ll_setpassword, R.id.ll_clear_cache, R.id.ll_follow_wechat, R.id.ll_log_out})
+    @OnClick({R.id.ll_about, R.id.ll_setpassword, R.id.ll_clear_cache, R.id.ll_follow_wechat, R.id.ll_log_out})
     public void onClick(View v) {
         switch (v.getId()) {
             default:
                 break;
 
             case R.id.ll_about:
+
 //                startActivity(new Intent(this, AboutUsActivity.class));
                 break;
             case R.id.ll_setpassword:
@@ -133,7 +145,10 @@ public class SettingActivity extends BaseMvpActivity<UserModle> {
 
                 break;
             case R.id.ll_log_out:
-               throw  new NotSignException("退出登录成功");
+                show();
+                String value = (String) mChuMuSharedPreferences.getValue(SPConstant.Login.TOKEN, "");
+                mPresenter.getData(ApiConfig.LOGOUT, value);
+                break;
 
         }
     }

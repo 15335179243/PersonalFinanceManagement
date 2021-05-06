@@ -58,17 +58,13 @@ public class SplashActivity extends BaseActivity {
      * 首次进入引导页判断
      */
     private void checkToJump() {
-        boolean isFirstin = (boolean) mChuMuSharedPreferences.getValue(SPConstant.FIRST_IN, true);
-        if (isFirstin) {
-            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-            mChuMuSharedPreferences.putValue(SPConstant.FIRST_IN, false);
-        } else {
 
             if (TextUtils.isEmpty(BaseApplication.mToken)) {
                 startActivity(new Intent(SplashActivity.this, RegisterAndPhoneLoginActivity.class));
             }else {
                 startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-            }
+
+
         }
         finish();
     }

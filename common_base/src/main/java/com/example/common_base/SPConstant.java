@@ -19,6 +19,7 @@ public class SPConstant {
         public static final String MOBILE = "mobile" ;// 手机号
         public static final String ID = "id" ;// 用户id
         public static final String NICKNAME = "nickName" ;// 昵称
+        public static final String moneyLimit = "moneyLimit" ;// 每月额限
         public static final String TOKEN = "token" ;// token
         public static final String HEAD_PICTURE = "headPicture" ;// 头像
         public static final String SIGNATURE = "signature" ;// 个性签名

@@ -64,9 +64,6 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
     private CommonTitle mTitleView;
 
 
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +91,8 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
             ExitApplication.getInstance().addActivity(this);
             mBind = ButterKnife.bind(this);
             GlobalCrashCapture.onNotSignEvent(this);
+
+
             initmvp();
             initView();
             initData();
@@ -119,6 +118,8 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
                 onTitleViewMoreClick(view);
             }
         });
+
+        setSupportActionBar(getTitleView().toolbar);
     }
 
     protected void onTitleViewTitleClick(View view) {
@@ -184,11 +185,24 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
     }
 
     public void showToast(String content) {
-        Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), content, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 
     public void showLongToast(String content) {
-        Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void initRecycleView(RecyclerView recyclerView, RefreshLayout refreshLayout) {
@@ -272,7 +286,7 @@ public abstract class BaseActivity extends ChuMuBaseActivity implements NetStatu
     @Override
     public void onSingEvent() {
         //未登录操作
-        mChuMuSharedPreferences.putValue(SPConstant.Login.TOKEN,"");
+        mChuMuSharedPreferences.putValue(SPConstant.Login.TOKEN, "");
         ARouter.getInstance().build(RoutePath.Login.LOGIN_PWD).navigation();
         ActivityCollector.finishAll();
 

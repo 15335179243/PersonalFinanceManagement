@@ -2,18 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/zhangdan"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_remen"
+        android:icon="@drawable/tingji"
         android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_aixin"
+        android:icon="@drawable/qunzhu"
         android:title="@string/title_notifications" />
+    <item
+        android:id="@+id/navigation_zixun"
+        android:icon="@drawable/ic_remen"
+        android:title="@string/title_qunzhu" />
     <item
         android:id="@+id/navigation_my"
         android:icon="@drawable/ic_user"

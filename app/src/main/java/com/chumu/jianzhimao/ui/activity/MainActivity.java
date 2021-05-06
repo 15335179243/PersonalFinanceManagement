@@ -1,5 +1,7 @@
 package com.chumu.jianzhimao.ui.activity;
 
+import android.view.MotionEvent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,5 +86,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return false;
 
+
+    }
 }
