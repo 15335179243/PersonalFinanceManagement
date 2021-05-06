@@ -78,7 +78,7 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<ResponseBody> getLoginVerification(@Field("req") String json);
 
-    @GET(QUERY_STATISTICS_TOTAL)
+    @GET(LOGOUT)
     Observable<ResponseBody> getLogout(@Query("token") String token);
 
     @GET(QUERY_STATISTICS_TOTAL )
